@@ -1,9 +1,271 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<soapenv:Envelope xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/"
- xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/"
- xmlns:xsd="http://www.w3.org/2001/XMLSchema"
- xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-<soapenv:Body>
-<RetrievePropertiesExResponse xmlns="urn:vim25"><returnval><objects><obj type="VirtualMachine">vm-1</obj><propSet><name>name</name><val xsi:type="xsd:string">vm-1</val></propSet></objects></returnval></RetrievePropertiesExResponse>
-</soapenv:Body>
+<soapenv:Envelope xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <soapenv:Body>
+    <RetrievePropertiesExResponse xmlns="urn:vim25">
+      <returnval>
+        <token>0</token>
+        <objects>
+          <obj type="VirtualMachine">vm-101</obj>
+          <propSet>
+            <name>name</name>
+            <val xsi:type="xsd:string">vm-101</val>
+          </propSet>
+          <propSet>
+            <name>summary.overallStatus</name>
+            <val xsi:type="ManagedEntityStatus">green</val>
+          </propSet>
+          <propSet>
+            <name>summary.runtime</name>
+            <val xsi:type="VirtualMachineRuntimeInfo">
+              <device>
+                <runtimeState xsi:type="VirtualMachineDeviceRuntimeInfoVirtualEthernetCardRuntimeState">
+                  <vmDirectPathGen2Active>false</vmDirectPathGen2Active>
+                  <vmDirectPathGen2InactiveReasonOther>vmNptIncompatibleNetwork</vmDirectPathGen2InactiveReasonOther>
+                </runtimeState>
+                <key>4000</key>
+              </device>
+              <host type="HostSystem">host-10</host>
+              <connectionState>connected</connectionState>
+              <powerState>poweredOn</powerState>
+              <faultToleranceState>notConfigured</faultToleranceState>
+              <toolsInstallerMounted>false</toolsInstallerMounted>
+              <bootTime>2017-03-22T20:26:14.337213Z</bootTime>
+              <suspendInterval>0</suspendInterval>
+              <maxCpuUsage>2681</maxCpuUsage>
+              <maxMemoryUsage>1024</maxMemoryUsage>
+              <numMksConnections>0</numMksConnections>
+              <recordReplayState>inactive</recordReplayState>
+              <onlineStandby>false</onlineStandby>
+              <consolidationNeeded>false</consolidationNeeded>
+              <offlineFeatureRequirement>
+                <key>cpuid.lm</key>
+                <featureName>cpuid.lm</featureName>
+                <value>Bool:Min:1</value>
+              </offlineFeatureRequirement>
+              <featureRequirement>
+                <key>cpuid.SSE3</key>
+                <featureName>cpuid.SSE3</featureName>
+                <value>Bool:Min:1</value>
+              </featureRequirement>
+              <featureRequirement>
+                <key>cpuid.PCLMULQDQ</key>
+                <featureName>cpuid.PCLMULQDQ</featureName>
+                <value>Bool:Min:1</value>
+              </featureRequirement>
+              <featureRequirement>
+                <key>cpuid.SSSE3</key>
+                <featureName>cpuid.SSSE3</featureName>
+                <value>Bool:Min:1</value>
+              </featureRequirement>
+              <featureRequirement>
+                <key>cpuid.FMA</key>
+                <featureName>cpuid.FMA</featureName>
+                <value>Bool:Min:1</value>
+              </featureRequirement>
+              <featureRequirement>
+                <key>cpuid.CMPXCHG16B</key>
+                <featureName>cpuid.CMPXCHG16B</featureName>
+                <value>Bool:Min:1</value>
+              </featureRequirement>
+              <featureRequirement>
+                <key>cpuid.PCID</key>
+                <featureName>cpuid.PCID</featureName>
+                <value>Bool:Min:1</value>
+              </featureRequirement>
+              <featureRequirement>
+                <key>cpuid.SSE41</key>
+                <featureName>cpuid.SSE41</featureName>
+                <value>Bool:Min:1</value>
+              </featureRequirement>
+              <featureRequirement>
+                <key>cpuid.SSE42</key>
+                <featureName>cpuid.SSE42</featureName>
+                <value>Bool:Min:1</value>
+              </featureRequirement>
+              <featureRequirement>
+                <key>cpuid.MOVBE</key>
+                <featureName>cpuid.MOVBE</featureName>
+                <value>Bool:Min:1</value>
+              </featureRequirement>
+              <featureRequirement>
+                <key>cpuid.POPCNT</key>
+                <featureName>cpuid.POPCNT</featureName>
+                <value>Bool:Min:1</value>
+              </featureRequirement>
+              <featureRequirement>
+                <key>cpuid.AES</key>
+                <featureName>cpuid.AES</featureName>
+                <value>Bool:Min:1</value>
+              </featureRequirement>
+              <featureRequirement>
+                <key>cpuid.XSAVE</key>
+                <featureName>cpuid.XSAVE</featureName>
+                <value>Bool:Min:1</value>
+              </featureRequirement>
+              <featureRequirement>
+                <key>cpuid.AVX</key>
+                <featureName>cpuid.AVX</featureName>
+                <value>Bool:Min:1</value>
+              </featureRequirement>
+              <featureRequirement>
+                <key>cpuid.F16C</key>
+                <featureName>cpuid.F16C</featureName>
+                <value>Bool:Min:1</value>
+              </featureRequirement>
+              <featureRequirement>
+                <key>cpuid.RDRAND</key>
+                <featureName>cpuid.RDRAND</featureName>
+                <value>Bool:Min:1</value>
+              </featureRequirement>
+              <featureRequirement>
+                <key>cpuid.DS</key>
+                <featureName>cpuid.DS</featureName>
+                <value>Bool:Min:1</value>
+              </featureRequirement>
+              <featureRequirement>
+                <key>cpuid.SS</key>
+                <featureName>cpuid.SS</featureName>
+                <value>Bool:Min:1</value>
+              </featureRequirement>
+              <featureRequirement>
+                <key>cpuid.FSGSBASE</key>
+                <featureName>cpuid.FSGSBASE</featureName>
+                <value>Bool:Min:1</value>
+              </featureRequirement>
+              <featureRequirement>
+                <key>cpuid.SMEP</key>
+                <featureName>cpuid.SMEP</featureName>
+                <value>Bool:Min:1</value>
+              </featureRequirement>
+              <featureRequirement>
+                <key>cpuid.ENFSTRG</key>
+                <featureName>cpuid.ENFSTRG</featureName>
+                <value>Bool:Min:1</value>
+              </featureRequirement>
+              <featureRequirement>
+                <key>cpuid.XCR0_MASTER_SSE</key>
+                <featureName>cpuid.XCR0_MASTER_SSE</featureName>
+                <value>Bool:Min:1</value>
+              </featureRequirement>
+              <featureRequirement>
+                <key>cpuid.XCR0_MASTER_YMM_H</key>
+                <featureName>cpuid.XCR0_MASTER_YMM_H</featureName>
+                <value>Bool:Min:1</value>
+              </featureRequirement>
+              <featureRequirement>
+                <key>cpuid.LAHF64</key>
+                <featureName>cpuid.LAHF64</featureName>
+                <value>Bool:Min:1</value>
+              </featureRequirement>
+              <featureRequirement>
+                <key>cpuid.3DNPREFETCH</key>
+                <featureName>cpuid.3DNPREFETCH</featureName>
+                <value>Bool:Min:1</value>
+              </featureRequirement>
+              <featureRequirement>
+                <key>cpuid.NX</key>
+                <featureName>cpuid.NX</featureName>
+                <value>Bool:Min:1</value>
+              </featureRequirement>
+              <featureRequirement>
+                <key>cpuid.PDPE1GB</key>
+                <featureName>cpuid.PDPE1GB</featureName>
+                <value>Bool:Min:1</value>
+              </featureRequirement>
+              <featureRequirement>
+                <key>cpuid.RDTSCP</key>
+                <featureName>cpuid.RDTSCP</featureName>
+                <value>Bool:Min:1</value>
+              </featureRequirement>
+              <featureRequirement>
+                <key>cpuid.LM</key>
+                <featureName>cpuid.LM</featureName>
+                <value>Bool:Min:1</value>
+              </featureRequirement>
+              <featureRequirement>
+                <key>cpuid.Intel</key>
+                <featureName>cpuid.Intel</featureName>
+                <value>Bool:Min:1</value>
+              </featureRequirement>
+              <featureRequirement>
+                <key>misc.cpuidFaulting</key>
+                <featureName>misc.cpuidFaulting</featureName>
+                <value>Bool:Min:1</value>
+              </featureRequirement>
+              <vFlashCacheAllocation>0</vFlashCacheAllocation>
+              <paused>false</paused>
+              <snapshotInBackground>false</snapshotInBackground>
+            </val>
+          </propSet>
+          <propSet>
+            <name>summary.runtime.bootTime</name>
+            <val xsi:type="xsd:dateTime">2017-03-22T20:26:14.337213Z</val>
+          </propSet>
+        </objects>
+        <objects>
+          <obj type="VirtualMachine">vm-102</obj>
+          <propSet>
+            <name>name</name>
+            <val xsi:type="xsd:string">vm-102</val>
+          </propSet>
+        </objects>
+        <objects>
+          <obj type="VirtualMachine">vm-103</obj>
+          <propSet>
+            <name>name</name>
+            <val xsi:type="xsd:string">vm-103</val>
+          </propSet>
+        </objects>
+        <objects>
+          <obj type="VirtualMachine">vm-104</obj>
+          <propSet>
+            <name>name</name>
+            <val xsi:type="xsd:string">vm-104</val>
+          </propSet>
+        </objects>
+        <objects>
+          <obj type="VirtualMachine">vm-105</obj>
+          <propSet>
+            <name>name</name>
+            <val xsi:type="xsd:string">vm-105</val>
+          </propSet>
+        </objects>
+        <objects>
+          <obj type="VirtualMachine">vm-106</obj>
+          <propSet>
+            <name>name</name>
+            <val xsi:type="xsd:string">vm-106</val>
+          </propSet>
+        </objects>
+        <objects>
+          <obj type="VirtualMachine">vm-107</obj>
+          <propSet>
+            <name>name</name>
+            <val xsi:type="xsd:string">vm-107</val>
+          </propSet>
+        </objects>
+        <objects>
+          <obj type="VirtualMachine">vm-108</obj>
+          <propSet>
+            <name>name</name>
+            <val xsi:type="xsd:string">vm-108</val>
+          </propSet>
+        </objects>
+        <objects>
+          <obj type="VirtualMachine">vm-109</obj>
+          <propSet>
+            <name>name</name>
+            <val xsi:type="xsd:string">vm-109</val>
+          </propSet>
+        </objects>
+        <objects>
+          <obj type="VirtualMachine">vm-110</obj>
+          <propSet>
+            <name>name</name>
+            <val xsi:type="xsd:string">vm-110</val>
+          </propSet>
+        </objects>
+      </returnval>
+    </RetrievePropertiesExResponse>
+  </soapenv:Body>
 </soapenv:Envelope>

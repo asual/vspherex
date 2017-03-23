@@ -47,14 +47,20 @@ tap.test("vimEx", async () => {
 
   nock(url).post("/sdk").replyWithFile(200,
       path.join(__dirname, "vimEx/retrievePropertiesEx.xml"));
-  const entities = await vimEx.retrieveEntities(serviceContent.rootFolder,
-      vimEx.entity.VirtualMachine, 1, "name");
+  nock(url).post("/sdk").replyWithFile(200,
+      path.join(__dirname, "vimEx/continueRetrievePropertiesEx.xml"));
 
-  tap.equal(entities.length, 1);
+  const entities = await vimEx.retrieveEntities(serviceContent.rootFolder,
+      vimEx.entity.VirtualMachine, 20, "name", "summary.overallStatus",
+      "summary.runtime.bootTime", "summary.runtime");
+
+  tap.equal(entities.length, 15);
   tap.equal(entities[0].ref instanceof vim.ManagedObjectReference, true);
   tap.equal(entities[0].ref.type, vimEx.entity.VirtualMachine);
-  tap.equal(entities[0].ref.value, "vm-1");
-  tap.equal(entities[0].props.name, "vm-1");
+  tap.equal(entities[0].ref.value, "vm-101");
+  tap.equal(entities[0].props.name, "vm-101");
+  tap.equal(entities[0].props.summary.runtime.bootTime.getTime(),
+      new Date("2017-03-22T20:26:14.337Z").getTime());
 
   nock.cleanAll();
 });

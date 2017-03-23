@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<soapenv:Envelope xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <soapenv:Body>
+    <ContinueRetrievePropertiesExResponse xmlns="urn:vim25">
+      <returnval>
+        <objects>
+          <obj type="VirtualMachine">vm-111</obj>
+          <propSet>
+            <name>name</name>
+            <val xsi:type="xsd:string">vm-111</val>
+          </propSet>
+        </objects>
+        <objects>
+          <obj type="VirtualMachine">vm-112</obj>
+          <propSet>
+            <name>name</name>
+            <val xsi:type="xsd:string">vm-112</val>
+          </propSet>
+        </objects>
+        <objects>
+          <obj type="VirtualMachine">vm-113</obj>
+          <propSet>
+            <name>name</name>
+            <val xsi:type="xsd:string">vm-113</val>
+          </propSet>
+        </objects>
+        <objects>
+          <obj type="VirtualMachine">vm-114</obj>
+          <propSet>
+            <name>name</name>
+            <val xsi:type="xsd:string">vm-114</val>
+          </propSet>
+        </objects>
+        <objects>
+          <obj type="VirtualMachine">vm-115</obj>
+          <propSet>
+            <name>name</name>
+            <val xsi:type="xsd:string">vm-115</val>
+          </propSet>
+        </objects>
+      </returnval>
+    </ContinueRetrievePropertiesExResponse>
+  </soapenv:Body>
+</soapenv:Envelope>

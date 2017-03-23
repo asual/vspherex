@@ -40,7 +40,7 @@ import * as vspherex from "vspherex";
     const vimEx = vspherex.vimEx(vimService);
     // Retrieve all datacenter references
     const refs = await vimEx.retrieveReferences(rootFolder,
-        vimEx.entity.Datacenter);
+        vimEx.entity.Datacenter, 1);
     if (refs.length === 0) {
       throw new Error("No datacenters available");
     }

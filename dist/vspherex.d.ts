@@ -143,7 +143,7 @@ export declare const integrityEx: (integrityService: integrityService) => {
     retrieveEntities: (ref: integrityService.vim.ManagedObjectReference, type: string, limit: number, ...props: string[]) => Promise<any>;
     retrieveProperties: (ref: integrityService.vim.ManagedObjectReference, ...props: string[]) => Promise<any>;
     retrieveProperty: (ref: integrityService.vim.ManagedObjectReference, prop: string) => Promise<any>;
-    retrieveReferences: (ref: integrityService.vim.ManagedObjectReference, type: string, limit?: number) => Promise<any>;
+    retrieveReferences: (ref: integrityService.vim.ManagedObjectReference, type: string, limit: number) => Promise<any>;
     waitForTask: (ref: integrityService.vim.ManagedObjectReference) => Promise<void>;
 };
 export declare const vimEx: (vimService: vimService) => {
@@ -290,6 +290,6 @@ export declare const vimEx: (vimService: vimService) => {
     retrieveEntities: (ref: vimService.vim.ManagedObjectReference, type: string, limit: number, ...props: string[]) => Promise<any>;
     retrieveProperties: (ref: vimService.vim.ManagedObjectReference, ...props: string[]) => Promise<any>;
     retrieveProperty: (ref: vimService.vim.ManagedObjectReference, prop: string) => Promise<any>;
-    retrieveReferences: (ref: vimService.vim.ManagedObjectReference, type: string, limit?: number) => Promise<any>;
+    retrieveReferences: (ref: vimService.vim.ManagedObjectReference, type: string, limit: number) => Promise<any>;
     waitForTask: (ref: vimService.vim.ManagedObjectReference) => Promise<void>;
 };
