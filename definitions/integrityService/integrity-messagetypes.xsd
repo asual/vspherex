@@ -1,0 +1,534 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+   Copyright 2005-2016 VMware, Inc.  All rights reserved.
+-->
+<schema
+   targetNamespace="urn:integrity"
+   xmlns="http://www.w3.org/2001/XMLSchema"
+   xmlns:integrity="urn:integrity"
+   xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+   xmlns:vim25="urn:vim25"
+   xmlns:reflect="urn:reflect"
+   elementFormDefault="qualified"
+>
+   <import namespace="urn:vim25" schemaLocation="query-types.xsd" />
+   <import namespace="urn:vim25" schemaLocation="vim-types.xsd" />
+   <import namespace="urn:vim25" schemaLocation="core-types.xsd" />
+   <import namespace="urn:reflect" schemaLocation="reflect-types.xsd" />
+   <include schemaLocation="integrity-types.xsd" />
+   <complexType name="CreateBaselineGroupRequestType">
+      <sequence>
+         <element name="_this" type="vim25:ManagedObjectReference" />
+         <element name="spec" type="integrity:BaselineGroupManagerBaselineGroupSpec" />
+      </sequence>
+   </complexType>
+   <complexType name="GetBaselineGroupInfoRequestType">
+      <sequence>
+         <element name="_this" type="vim25:ManagedObjectReference" />
+         <element name="id" type="xsd:int" maxOccurs="unbounded" />
+      </sequence>
+   </complexType>
+   <complexType name="SetBaselineGroupInfoRequestType">
+      <sequence>
+         <element name="_this" type="vim25:ManagedObjectReference" />
+         <element name="info" type="integrity:BaselineGroupManagerBaselineGroupInfo" />
+      </sequence>
+   </complexType>
+   <complexType name="DeleteBaselineGroupRequestType">
+      <sequence>
+         <element name="_this" type="vim25:ManagedObjectReference" />
+         <element name="id" type="xsd:int" />
+      </sequence>
+   </complexType>
+   <complexType name="AssignBaselineGroupToEntityRequestType">
+      <sequence>
+         <element name="_this" type="vim25:ManagedObjectReference" />
+         <element name="entity" type="vim25:ManagedObjectReference" />
+         <element name="group" type="xsd:int" maxOccurs="unbounded" />
+      </sequence>
+   </complexType>
+   <complexType name="RemoveBaselineGroupFromEntityRequestType">
+      <sequence>
+         <element name="_this" type="vim25:ManagedObjectReference" />
+         <element name="entity" type="vim25:ManagedObjectReference" />
+         <element name="group" type="xsd:int" maxOccurs="unbounded" />
+      </sequence>
+   </complexType>
+   <complexType name="QueryBaselineGroupForEntityRequestType">
+      <sequence>
+         <element name="_this" type="vim25:ManagedObjectReference" />
+         <element name="entity" type="vim25:ManagedObjectReference" />
+         <element name="inheritFromParent" type="xsd:boolean" />
+         <element name="assignedToChild" type="xsd:boolean" />
+      </sequence>
+   </complexType>
+   <complexType name="QueryAssignedEntityForBaselineGroupRequestType">
+      <sequence>
+         <element name="_this" type="vim25:ManagedObjectReference" />
+         <element name="group" type="xsd:int" maxOccurs="unbounded" />
+      </sequence>
+   </complexType>
+   <complexType name="CreateBaselineRequestType">
+      <sequence>
+         <element name="_this" type="vim25:ManagedObjectReference" />
+         <element name="spec" type="integrity:BaselineSpec" />
+      </sequence>
+   </complexType>
+   <complexType name="GetBaselineInfoRequestType">
+      <sequence>
+         <element name="_this" type="vim25:ManagedObjectReference" />
+         <element name="id" type="xsd:int" maxOccurs="unbounded" />
+      </sequence>
+   </complexType>
+   <complexType name="SetBaselineInfoRequestType">
+      <sequence>
+         <element name="_this" type="vim25:ManagedObjectReference" />
+         <element name="baseline" type="integrity:BaselineInfo" />
+      </sequence>
+   </complexType>
+   <complexType name="DeleteBaselineRequestType">
+      <sequence>
+         <element name="_this" type="vim25:ManagedObjectReference" />
+         <element name="id" type="xsd:int" />
+      </sequence>
+   </complexType>
+   <complexType name="AssignBaselinesToEntityRequestType">
+      <sequence>
+         <element name="_this" type="vim25:ManagedObjectReference" />
+         <element name="entity" type="vim25:ManagedObjectReference" />
+         <element name="baseline" type="xsd:int" maxOccurs="unbounded" />
+      </sequence>
+   </complexType>
+   <complexType name="RemoveBaselinesFromEntityRequestType">
+      <sequence>
+         <element name="_this" type="vim25:ManagedObjectReference" />
+         <element name="entity" type="vim25:ManagedObjectReference" />
+         <element name="baseline" type="xsd:int" maxOccurs="unbounded" />
+      </sequence>
+   </complexType>
+   <complexType name="QueryBaselinesForEntityRequestType">
+      <sequence>
+         <element name="_this" type="vim25:ManagedObjectReference" />
+         <element name="entity" type="vim25:ManagedObjectReference" />
+         <element name="searchCriteria" type="integrity:BaselineManagerBaselinesSearchSpec" />
+      </sequence>
+   </complexType>
+   <complexType name="QueryAssignedEntityForBaselineRequestType">
+      <sequence>
+         <element name="_this" type="vim25:ManagedObjectReference" />
+         <element name="baseline" type="xsd:int" maxOccurs="unbounded" />
+      </sequence>
+   </complexType>
+   <complexType name="QueryMissingPatchInformationRequestType">
+      <sequence>
+         <element name="_this" type="vim25:ManagedObjectReference" />
+      </sequence>
+   </complexType>
+   <complexType name="QueryBaselinesForUpdateRequestType">
+      <sequence>
+         <element name="_this" type="vim25:ManagedObjectReference" />
+         <element name="update" type="xsd:int" maxOccurs="unbounded" />
+      </sequence>
+   </complexType>
+   <complexType name="QueryUpdatesRequestType">
+      <sequence>
+         <element name="_this" type="vim25:ManagedObjectReference" />
+         <element name="baseline" type="xsd:int" maxOccurs="unbounded" />
+      </sequence>
+   </complexType>
+   <complexType name="QueryVMHWScanResultRequestType">
+      <sequence>
+         <element name="_this" type="vim25:ManagedObjectReference" />
+         <element name="entities" type="vim25:ManagedObjectReference" maxOccurs="unbounded" />
+         <element name="baseline" type="xsd:int" />
+      </sequence>
+   </complexType>
+   <complexType name="QueryVMToolsStatusRequestType">
+      <sequence>
+         <element name="_this" type="vim25:ManagedObjectReference" />
+         <element name="entities" type="vim25:ManagedObjectReference" maxOccurs="unbounded" />
+      </sequence>
+   </complexType>
+   <complexType name="QueryBaselinesForUpgradeReleaseRequestType">
+      <sequence>
+         <element name="_this" type="vim25:ManagedObjectReference" />
+         <element name="releaseKey" type="xsd:string" />
+      </sequence>
+   </complexType>
+   <complexType name="QueryUpdatesForEntityBaselineRequestType">
+      <sequence>
+         <element name="_this" type="vim25:ManagedObjectReference" />
+         <element name="entities" type="vim25:ManagedObjectReference" maxOccurs="unbounded" />
+         <element name="baseline" type="xsd:int" />
+      </sequence>
+   </complexType>
+   <complexType name="GetComplianceStatusRequestType">
+      <sequence>
+         <element name="_this" type="vim25:ManagedObjectReference" />
+         <element name="entity" type="vim25:ManagedObjectReference" />
+      </sequence>
+   </complexType>
+   <complexType name="GetUpdateComplianceStatusRequestType">
+      <sequence>
+         <element name="_this" type="vim25:ManagedObjectReference" />
+         <element name="entity" type="vim25:ManagedObjectReference" />
+         <element name="spec" type="integrity:ComplianceStatusManagerDetailedComplianceStatusSpec" />
+      </sequence>
+   </complexType>
+   <complexType name="QueryEntityComplianceStatusRequestType">
+      <sequence>
+         <element name="_this" type="vim25:ManagedObjectReference" />
+         <element name="entity" type="vim25:ManagedObjectReference" />
+         <element name="baselineIds" type="xsd:int" maxOccurs="unbounded" />
+      </sequence>
+   </complexType>
+   <complexType name="QueryUpdateStatusRequestType">
+      <sequence>
+         <element name="_this" type="vim25:ManagedObjectReference" />
+         <element name="entity" type="vim25:ManagedObjectReference" />
+         <element name="baseline" type="xsd:int" maxOccurs="unbounded" />
+      </sequence>
+   </complexType>
+   <complexType name="QueryBaselineStatusRequestType">
+      <sequence>
+         <element name="_this" type="vim25:ManagedObjectReference" />
+         <element name="entity" type="vim25:ManagedObjectReference" />
+         <element name="selectedStatus" type="xsd:string" minOccurs="0" maxOccurs="unbounded" />
+         <element name="baseline" type="xsd:int" maxOccurs="unbounded" />
+      </sequence>
+   </complexType>
+   <complexType name="QueryUpdateStatusForBaselineGroupRequestType">
+      <sequence>
+         <element name="_this" type="vim25:ManagedObjectReference" />
+         <element name="entity" type="vim25:ManagedObjectReference" />
+         <element name="baselinegroup" type="xsd:int" />
+      </sequence>
+   </complexType>
+   <complexType name="QueryBaselineComplianceStatusRequestType">
+      <sequence>
+         <element name="_this" type="vim25:ManagedObjectReference" />
+         <element name="entity" type="vim25:ManagedObjectReference" />
+      </sequence>
+   </complexType>
+   <complexType name="QueryBaselineGroupComplianceStatusRequestType">
+      <sequence>
+         <element name="_this" type="vim25:ManagedObjectReference" />
+         <element name="entity" type="vim25:ManagedObjectReference" />
+      </sequence>
+   </complexType>
+   <complexType name="IntegrityDisposeRequestType">
+      <sequence>
+         <element name="_this" type="vim25:ManagedObjectReference" />
+      </sequence>
+   </complexType>
+   <complexType name="IntegrityMakeStickyRequestType">
+      <sequence>
+         <element name="_this" type="vim25:ManagedObjectReference" />
+      </sequence>
+   </complexType>
+   <complexType name="RetrieveEulaDetailsRequestType">
+      <sequence>
+         <element name="_this" type="vim25:ManagedObjectReference" />
+         <element name="updateId" type="xsd:int" />
+      </sequence>
+   </complexType>
+   <complexType name="SetEulaStateRequestType">
+      <sequence>
+         <element name="_this" type="vim25:ManagedObjectReference" />
+         <element name="updateId" type="xsd:int" />
+         <element name="accepted" type="xsd:boolean" />
+      </sequence>
+   </complexType>
+   <complexType name="GetEulaStateRequestType">
+      <sequence>
+         <element name="_this" type="vim25:ManagedObjectReference" />
+         <element name="updateId" type="xsd:int" />
+      </sequence>
+   </complexType>
+   <complexType name="ImportFileRequestType">
+      <sequence>
+         <element name="_this" type="vim25:ManagedObjectReference" />
+         <element name="fileSpec" type="integrity:FileUploadManagerFileUploadSpec" />
+      </sequence>
+   </complexType>
+   <complexType name="CreateScheduledIntegrityTaskRequestType">
+      <sequence>
+         <element name="_this" type="vim25:ManagedObjectReference" />
+         <element name="target" type="vim25:ManagedObjectReference" />
+         <element name="spec" type="vim25:ScheduledTaskSpec" />
+      </sequence>
+   </complexType>
+   <complexType name="GetScheduledIntegrityTaskRequestType">
+      <sequence>
+         <element name="_this" type="vim25:ManagedObjectReference" />
+         <element name="task" type="vim25:ManagedObjectReference" />
+      </sequence>
+   </complexType>
+   <complexType name="ReconfigureScheduledIntegrityTaskRequestType">
+      <sequence>
+         <element name="_this" type="vim25:ManagedObjectReference" />
+         <element name="task" type="vim25:ManagedObjectReference" />
+         <element name="spec" type="vim25:ScheduledTaskSpec" />
+      </sequence>
+   </complexType>
+   <complexType name="VciLoginRequestType">
+      <sequence>
+         <element name="_this" type="vim25:ManagedObjectReference" />
+         <element name="userName" type="xsd:string" />
+         <element name="sessionId" type="xsd:string" />
+         <element name="locale" type="xsd:string" minOccurs="0" />
+      </sequence>
+   </complexType>
+   <complexType name="VciLogoutRequestType">
+      <sequence>
+         <element name="_this" type="vim25:ManagedObjectReference" />
+      </sequence>
+   </complexType>
+   <complexType name="VciCheckSessionActiveRequestType">
+      <sequence>
+         <element name="_this" type="vim25:ManagedObjectReference" />
+         <element name="sessionID" type="xsd:string" />
+      </sequence>
+   </complexType>
+   <complexType name="RemoveStatusCollectorRequestType">
+      <sequence>
+         <element name="_this" type="vim25:ManagedObjectReference" />
+      </sequence>
+   </complexType>
+   <complexType name="DownloadUpdateSignaturesRequestType">
+      <sequence>
+         <element name="_this" type="vim25:ManagedObjectReference" />
+         <element name="language" type="xsd:string" minOccurs="0" maxOccurs="unbounded" />
+      </sequence>
+   </complexType>
+   <complexType name="RetrieveVAFileRequestType">
+      <sequence>
+         <element name="_this" type="vim25:ManagedObjectReference" />
+         <element name="relativePath" type="xsd:string" />
+      </sequence>
+   </complexType>
+   <complexType name="CheckNotificationsRequestType">
+      <sequence>
+         <element name="_this" type="vim25:ManagedObjectReference" />
+         <element name="language" type="xsd:string" minOccurs="0" maxOccurs="unbounded" />
+      </sequence>
+   </complexType>
+   <complexType name="GetPatchRecallDetailInfoRequestType">
+      <sequence>
+         <element name="_this" type="vim25:ManagedObjectReference" />
+         <element name="recallID" type="xsd:int" />
+      </sequence>
+   </complexType>
+   <complexType name="AllowLiveVibInstallRequestType">
+      <sequence>
+         <element name="_this" type="vim25:ManagedObjectReference" />
+         <element name="hostMoId" type="vim25:ManagedObjectReference" minOccurs="0" />
+      </sequence>
+   </complexType>
+   <complexType name="SearchUpdateRequestType">
+      <sequence>
+         <element name="_this" type="vim25:ManagedObjectReference" />
+         <element name="spec" type="integrity:UpdateManagerSearchSpec" />
+      </sequence>
+   </complexType>
+   <complexType name="GetSoftwareUpdateRequestType">
+      <sequence>
+         <element name="_this" type="vim25:ManagedObjectReference" />
+         <element name="updateId" type="xsd:int" maxOccurs="unbounded" />
+      </sequence>
+   </complexType>
+   <complexType name="DeleteUpdatePackageRequestType">
+      <sequence>
+         <element name="_this" type="vim25:ManagedObjectReference" />
+         <element name="updateId" type="xsd:int" />
+      </sequence>
+   </complexType>
+   <complexType name="ScanRequestType">
+      <sequence>
+         <element name="_this" type="vim25:ManagedObjectReference" />
+         <element name="entity" type="vim25:ManagedObjectReference" maxOccurs="unbounded" />
+         <element name="spec" type="integrity:UpdateManagerScanSpec" />
+      </sequence>
+   </complexType>
+   <complexType name="StageRequestType">
+      <sequence>
+         <element name="_this" type="vim25:ManagedObjectReference" />
+         <element name="entity" type="vim25:ManagedObjectReference" maxOccurs="unbounded" />
+         <element name="leafEntity" type="vim25:ManagedObjectReference" minOccurs="0" maxOccurs="unbounded" />
+         <element name="spec" type="integrity:UpdateManagerStageSpec" />
+      </sequence>
+   </complexType>
+   <complexType name="RemediateRequestType">
+      <sequence>
+         <element name="_this" type="vim25:ManagedObjectReference" />
+         <element name="entity" type="vim25:ManagedObjectReference" maxOccurs="unbounded" />
+         <element name="leafEntity" type="vim25:ManagedObjectReference" minOccurs="0" maxOccurs="unbounded" />
+         <element name="spec" type="integrity:UpdateManagerRemediationSpec" />
+      </sequence>
+   </complexType>
+   <complexType name="ConfigureToolsUpgradeRequestType">
+      <sequence>
+         <element name="_this" type="vim25:ManagedObjectReference" />
+         <element name="entity" type="vim25:ManagedObjectReference" maxOccurs="unbounded" />
+         <element name="leafEntity" type="vim25:ManagedObjectReference" minOccurs="0" maxOccurs="unbounded" />
+         <element name="spec" type="integrity:UpdateManagerRemediationSpec" />
+      </sequence>
+   </complexType>
+   <complexType name="ConfigureToolsUpgradeOptionRequestType">
+      <sequence>
+         <element name="_this" type="vim25:ManagedObjectReference" />
+         <element name="entity" type="vim25:ManagedObjectReference" maxOccurs="unbounded" />
+         <element name="spec" type="integrity:UpdateManagerRemediationSpec" />
+      </sequence>
+   </complexType>
+   <complexType name="RemediatePrecheckRequestType">
+      <sequence>
+         <element name="_this" type="vim25:ManagedObjectReference" />
+         <element name="entity" type="vim25:ManagedObjectReference" maxOccurs="unbounded" />
+      </sequence>
+   </complexType>
+   <complexType name="QueryAvailableProductsRequestType">
+      <sequence>
+         <element name="_this" type="vim25:ManagedObjectReference" />
+         <element name="productType" type="xsd:string" />
+      </sequence>
+   </complexType>
+   <complexType name="DeleteUpgradeProductRequestType">
+      <sequence>
+         <element name="_this" type="vim25:ManagedObjectReference" />
+         <element name="key" type="xsd:string" />
+      </sequence>
+   </complexType>
+   <complexType name="UpgradeProductsForReleaseRequestType">
+      <sequence>
+         <element name="_this" type="vim25:ManagedObjectReference" />
+         <element name="key" type="xsd:string" />
+      </sequence>
+   </complexType>
+   <complexType name="GetUpgradeReleaseRequestType">
+      <sequence>
+         <element name="_this" type="vim25:ManagedObjectReference" />
+         <element name="key" type="xsd:string" />
+      </sequence>
+   </complexType>
+   <complexType name="CheckAndGetRequestType">
+      <sequence>
+         <element name="_this" type="vim25:ManagedObjectReference" />
+         <element name="productKeys" type="xsd:string" maxOccurs="unbounded" />
+      </sequence>
+   </complexType>
+   <complexType name="DeleteReleaseRequestType">
+      <sequence>
+         <element name="_this" type="vim25:ManagedObjectReference" />
+         <element name="key" type="xsd:string" />
+      </sequence>
+   </complexType>
+   <complexType name="getVUMTaskInfoRequestType">
+      <sequence>
+         <element name="_this" type="vim25:ManagedObjectReference" />
+         <element name="taskMO" type="vim25:ManagedObjectReference" />
+      </sequence>
+   </complexType>
+   <complexType name="SetConfigRequestType">
+      <sequence>
+         <element name="_this" type="vim25:ManagedObjectReference" />
+         <element name="config" type="integrity:ConfigSpec" />
+      </sequence>
+   </complexType>
+   <complexType name="SetNewUpdateConfigRequestType">
+      <sequence>
+         <element name="_this" type="vim25:ManagedObjectReference" />
+         <element name="config" type="integrity:NewUpdateConfigSpec" />
+      </sequence>
+   </complexType>
+   <complexType name="SetNewNotificationConfigRequestType">
+      <sequence>
+         <element name="_this" type="vim25:ManagedObjectReference" />
+         <element name="config" type="integrity:NewUpdateConfigSpec" />
+      </sequence>
+   </complexType>
+   <complexType name="RetrieveVcIntegrityContentRequestType">
+      <sequence>
+         <element name="_this" type="vim25:ManagedObjectReference" />
+      </sequence>
+   </complexType>
+   <complexType name="VcIntegrityCurrentTimeRequestType">
+      <sequence>
+         <element name="_this" type="vim25:ManagedObjectReference" />
+      </sequence>
+   </complexType>
+   <complexType name="RetrieveScoreBoardDataRequestType">
+      <sequence>
+         <element name="_this" type="vim25:ManagedObjectReference" />
+      </sequence>
+   </complexType>
+   <complexType name="TestInternetConnectionRequestType">
+      <sequence>
+         <element name="_this" type="vim25:ManagedObjectReference" />
+         <element name="proxyinfo" type="xsd:string" />
+         <element name="urls" type="xsd:string" minOccurs="0" maxOccurs="unbounded" />
+      </sequence>
+   </complexType>
+   <complexType name="RetrieveHostIPAddressesRequestType">
+      <sequence>
+         <element name="_this" type="vim25:ManagedObjectReference" />
+      </sequence>
+   </complexType>
+   <complexType name="QueryIntegrityOptionsRequestType">
+      <sequence>
+         <element name="_this" type="vim25:ManagedObjectReference" />
+         <element name="name" type="xsd:string" minOccurs="0" maxOccurs="unbounded" />
+      </sequence>
+   </complexType>
+   <complexType name="UpdateIntegrityOptionsRequestType">
+      <sequence>
+         <element name="_this" type="vim25:ManagedObjectReference" />
+         <element name="changedValue" type="integrity:IntegrityOptionValue" maxOccurs="unbounded" />
+      </sequence>
+   </complexType>
+   <complexType name="RemoveIntegrityOptionsRequestType">
+      <sequence>
+         <element name="_this" type="vim25:ManagedObjectReference" />
+         <element name="valueToRemove" type="integrity:IntegrityOptionValue" maxOccurs="unbounded" />
+      </sequence>
+   </complexType>
+   <complexType name="SetUpdateURLsRequestType">
+      <sequence>
+         <element name="_this" type="vim25:ManagedObjectReference" />
+         <element name="urlObj" type="integrity:SoftwareUpdateURL" maxOccurs="unbounded" />
+      </sequence>
+   </complexType>
+   <complexType name="DeleteUpdateURLsRequestType">
+      <sequence>
+         <element name="_this" type="vim25:ManagedObjectReference" />
+         <element name="url" type="xsd:string" maxOccurs="unbounded" />
+      </sequence>
+   </complexType>
+   <complexType name="TestUpdateURLRequestType">
+      <sequence>
+         <element name="_this" type="vim25:ManagedObjectReference" />
+         <element name="url" type="xsd:string" />
+         <element name="urlType" type="xsd:string" />
+      </sequence>
+   </complexType>
+   <complexType name="TestUpdateDepotURLRequestType">
+      <sequence>
+         <element name="_this" type="vim25:ManagedObjectReference" />
+         <element name="url" type="xsd:string" />
+      </sequence>
+   </complexType>
+   <complexType name="SetURLEnabledByTypeRequestType">
+      <sequence>
+         <element name="_this" type="vim25:ManagedObjectReference" />
+         <element name="urlType" type="xsd:string" />
+         <element name="value" type="xsd:boolean" />
+      </sequence>
+   </complexType>
+   <complexType name="SetURLEnabledByNameRequestType">
+      <sequence>
+         <element name="_this" type="vim25:ManagedObjectReference" />
+         <element name="url" type="xsd:string" />
+         <element name="value" type="xsd:boolean" />
+      </sequence>
+   </complexType>
+</schema>

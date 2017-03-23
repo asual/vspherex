@@ -1,0 +1,9 @@
+*.log
+*.tgz
+.*
+node_modules
+definitions
+samples
+tests
+ts*.json
+vspherex.ts

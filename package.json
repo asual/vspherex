@@ -1,0 +1,42 @@
+{
+  "author": "Rostislav Hristov <rostislav@asual.com>",
+  "bugs": {
+    "url": "https://github.com/asual/vspherex/issues"
+  },
+  "devDependencies": {
+    "@types/node": "7.0.8",
+    "nock": "9.0.9",
+    "stdio": "0.2.7",
+    "tap": "10.3.0",
+    "tslint": "4.5.1",
+    "typescript": "2.2.1",
+    "vsphere": "vsphere-1.1.0.tgz"
+  },
+  "description": "Extension of the vSphere SDK for JavaScript",
+  "homepage": "https://github.com/asual/vspherex#readme",
+  "keywords": [
+    "esxi",
+    "vcenter",
+    "vsphere",
+    "sdk",
+    "javascript"
+  ],
+  "license": "MIT",
+  "main": "dist/vspherex.js",
+  "name": "vspherex",
+  "peerDependencies": {
+    "vsphere": "1.x"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/asual/vspherex.git"
+  },
+  "scripts": {
+    "clear": "rm -rf **/*.js",
+    "build": "tsc -d -lib dom,es2017 dist/vspherex.ts && tsc -lib dom,es2017",
+    "script": "npm run build && node",
+    "test": "npm run build && tap tests"
+  },
+  "types": "dist/vspherex.d.ts",
+  "version": "1.0.0-rc.1"
+}

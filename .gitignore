@@ -1,0 +1,7 @@
+*.js
+*.log
+*.tgz
+.DS_Store
+.localStorage
+.vscode
+node_modules

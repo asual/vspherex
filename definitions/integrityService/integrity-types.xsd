@@ -1,0 +1,3421 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+   Copyright 2005-2016 VMware, Inc.  All rights reserved.
+-->
+<schema
+   targetNamespace="urn:integrity"
+   xmlns="http://www.w3.org/2001/XMLSchema"
+   xmlns:integrity="urn:integrity"
+   xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+   xmlns:vim25="urn:vim25"
+   xmlns:reflect="urn:reflect"
+   elementFormDefault="qualified"
+>
+   <import namespace="urn:vim25" schemaLocation="query-types.xsd" />
+   <import namespace="urn:vim25" schemaLocation="vim-types.xsd" />
+   <import namespace="urn:vim25" schemaLocation="core-types.xsd" />
+   <import namespace="urn:reflect" schemaLocation="reflect-types.xsd" />
+   <simpleType name="BaselineAttributeBaselineType">
+      <restriction base="xsd:string">
+         <enumeration value="Patch" />
+         <enumeration value="Upgrade" />
+         <enumeration value="Configuration" />
+         <enumeration value="Extension" />
+      </restriction>
+   </simpleType>
+   <simpleType name="BaselineAttributeAttribute">
+      <restriction base="xsd:string">
+         <enumeration value="Singleton" />
+         <enumeration value="LeafOnly" />
+         <enumeration value="NonRemediable" />
+      </restriction>
+   </simpleType>
+   <complexType name="BaselineAttribute">
+      <complexContent>
+         <extension base="vim25:DynamicData">
+            <sequence>
+               <element name="targetType" type="xsd:string" />
+               <element name="targetComponent" type="xsd:string" minOccurs="0" />
+               <element name="type" type="xsd:string" />
+               <element name="extraAttribute" type="xsd:string" minOccurs="0" maxOccurs="unbounded" />
+            </sequence>
+         </extension>
+      </complexContent>
+   </complexType>
+   <complexType name="BaselineGroupManagerBaselineGroupSpec">
+      <complexContent>
+         <extension base="vim25:DynamicData">
+            <sequence>
+               <element name="name" type="xsd:string" />
+               <element name="description" type="xsd:string" minOccurs="0" />
+               <element name="targetType" type="xsd:string" />
+               <element name="baseline" type="xsd:int" minOccurs="0" maxOccurs="unbounded" />
+               <element name="owner" type="xsd:string" minOccurs="0" />
+               <element name="ownerdata" type="xsd:string" minOccurs="0" />
+            </sequence>
+         </extension>
+      </complexContent>
+   </complexType>
+   <complexType name="BaselineGroupManagerBaselineGroupInfo">
+      <complexContent>
+         <extension base="integrity:BaselineGroupManagerBaselineGroupSpec">
+            <sequence>
+               <element name="key" type="xsd:int" />
+               <element name="versionNumber" type="xsd:int" />
+               <element name="lastUpdateTime" type="xsd:dateTime" minOccurs="0" />
+            </sequence>
+         </extension>
+      </complexContent>
+   </complexType>
+   <complexType name="ArrayOfBaselineGroupManagerBaselineGroupInfo">
+      <sequence>
+         <element name="BaselineGroupManagerBaselineGroupInfo" type="integrity:BaselineGroupManagerBaselineGroupInfo" minOccurs="0" maxOccurs="unbounded" />
+      </sequence>
+   </complexType>
+   <complexType name="BaselineGroupManagerTargetBaselineGroup">
+      <complexContent>
+         <extension base="vim25:DynamicData">
+            <sequence>
+               <element name="entity" type="vim25:ManagedObjectReference" />
+               <element name="groupId" type="xsd:int" minOccurs="0" maxOccurs="unbounded" />
+            </sequence>
+         </extension>
+      </complexContent>
+   </complexType>
+   <complexType name="ArrayOfBaselineGroupManagerTargetBaselineGroup">
+      <sequence>
+         <element name="BaselineGroupManagerTargetBaselineGroup" type="integrity:BaselineGroupManagerTargetBaselineGroup" minOccurs="0" maxOccurs="unbounded" />
+      </sequence>
+   </complexType>
+   <complexType name="BaselineGroupManagerAssignedEntityGroup">
+      <complexContent>
+         <extension base="vim25:DynamicData">
+            <sequence>
+               <element name="group" type="xsd:int" />
+               <element name="entity" type="vim25:ManagedObjectReference" minOccurs="0" maxOccurs="unbounded" />
+            </sequence>
+         </extension>
+      </complexContent>
+   </complexType>
+   <complexType name="ArrayOfBaselineGroupManagerAssignedEntityGroup">
+      <sequence>
+         <element name="BaselineGroupManagerAssignedEntityGroup" type="integrity:BaselineGroupManagerAssignedEntityGroup" minOccurs="0" maxOccurs="unbounded" />
+      </sequence>
+   </complexType>
+   <simpleType name="BaselineInfoContentType">
+      <restriction base="xsd:string">
+         <enumeration value="DYNAMIC" />
+         <enumeration value="STATIC" />
+         <enumeration value="BOTH" />
+         <enumeration value="INVALID" />
+      </restriction>
+   </simpleType>
+   <complexType name="BaselineInfo">
+      <complexContent>
+         <extension base="vim25:DynamicData">
+            <sequence>
+               <element name="spec" type="integrity:BaselineSpec" />
+               <element name="key" type="xsd:int" />
+               <element name="versionNumber" type="xsd:int" />
+               <element name="lastUpdateTime" type="xsd:dateTime" minOccurs="0" />
+               <element name="contentType" type="xsd:string" />
+               <element name="builtin" type="xsd:boolean" />
+            </sequence>
+         </extension>
+      </complexContent>
+   </complexType>
+   <complexType name="ArrayOfBaselineInfo">
+      <sequence>
+         <element name="BaselineInfo" type="integrity:BaselineInfo" minOccurs="0" maxOccurs="unbounded" />
+      </sequence>
+   </complexType>
+   <complexType name="BaselineManagerBaselinesSearchSpec">
+      <complexContent>
+         <extension base="vim25:DynamicData">
+            <sequence>
+               <element name="inheritFromParent" type="xsd:boolean" minOccurs="0" />
+               <element name="includeChild" type="xsd:boolean" minOccurs="0" />
+               <element name="includeBaselineGroup" type="xsd:boolean" minOccurs="0" />
+            </sequence>
+         </extension>
+      </complexContent>
+   </complexType>
+   <complexType name="BaselineManagerTargetBaselineGroup">
+      <complexContent>
+         <extension base="vim25:DynamicData">
+            <sequence>
+               <element name="entity" type="vim25:ManagedObjectReference" />
+               <element name="baselineId" type="xsd:int" minOccurs="0" maxOccurs="unbounded" />
+            </sequence>
+         </extension>
+      </complexContent>
+   </complexType>
+   <complexType name="ArrayOfBaselineManagerTargetBaselineGroup">
+      <sequence>
+         <element name="BaselineManagerTargetBaselineGroup" type="integrity:BaselineManagerTargetBaselineGroup" minOccurs="0" maxOccurs="unbounded" />
+      </sequence>
+   </complexType>
+   <complexType name="BaselineManagerAssignedEntityGroup">
+      <complexContent>
+         <extension base="vim25:DynamicData">
+            <sequence>
+               <element name="baseline" type="xsd:int" />
+               <element name="entity" type="vim25:ManagedObjectReference" minOccurs="0" maxOccurs="unbounded" />
+            </sequence>
+         </extension>
+      </complexContent>
+   </complexType>
+   <complexType name="ArrayOfBaselineManagerAssignedEntityGroup">
+      <sequence>
+         <element name="BaselineManagerAssignedEntityGroup" type="integrity:BaselineManagerAssignedEntityGroup" minOccurs="0" maxOccurs="unbounded" />
+      </sequence>
+   </complexType>
+   <complexType name="BaselineManagerTargetMissingPatchGroup">
+      <complexContent>
+         <extension base="vim25:DynamicData">
+            <sequence>
+               <element name="updateId" type="xsd:int" />
+               <element name="entities" type="vim25:ManagedObjectReference" minOccurs="0" maxOccurs="unbounded" />
+            </sequence>
+         </extension>
+      </complexContent>
+   </complexType>
+   <complexType name="ArrayOfBaselineManagerTargetMissingPatchGroup">
+      <sequence>
+         <element name="BaselineManagerTargetMissingPatchGroup" type="integrity:BaselineManagerTargetMissingPatchGroup" minOccurs="0" maxOccurs="unbounded" />
+      </sequence>
+   </complexType>
+   <complexType name="BaselineManagerUpdateBaselinesGroup">
+      <complexContent>
+         <extension base="vim25:DynamicData">
+            <sequence>
+               <element name="update" type="xsd:int" />
+               <element name="baseline" type="xsd:int" minOccurs="0" maxOccurs="unbounded" />
+            </sequence>
+         </extension>
+      </complexContent>
+   </complexType>
+   <complexType name="ArrayOfBaselineManagerUpdateBaselinesGroup">
+      <sequence>
+         <element name="BaselineManagerUpdateBaselinesGroup" type="integrity:BaselineManagerUpdateBaselinesGroup" minOccurs="0" maxOccurs="unbounded" />
+      </sequence>
+   </complexType>
+   <complexType name="BaselineManagerUpdateGroup">
+      <complexContent>
+         <extension base="vim25:DynamicData">
+            <sequence>
+               <element name="baselineId" type="xsd:int" />
+               <element name="updateId" type="xsd:int" minOccurs="0" maxOccurs="unbounded" />
+            </sequence>
+         </extension>
+      </complexContent>
+   </complexType>
+   <complexType name="ArrayOfBaselineManagerUpdateGroup">
+      <sequence>
+         <element name="BaselineManagerUpdateGroup" type="integrity:BaselineManagerUpdateGroup" minOccurs="0" maxOccurs="unbounded" />
+      </sequence>
+   </complexType>
+   <complexType name="BaselineManagerVmHWScanResult">
+      <complexContent>
+         <extension base="vim25:DynamicData">
+            <sequence>
+               <element name="baseline" type="xsd:int" />
+               <element name="vm" type="vim25:ManagedObjectReference" />
+               <element name="vmHWVersion" type="xsd:int" />
+               <element name="baselineHWVersion" type="xsd:int" />
+               <element name="details" type="vim25:LocalizableMessage" minOccurs="0" />
+            </sequence>
+         </extension>
+      </complexContent>
+   </complexType>
+   <complexType name="ArrayOfBaselineManagerVmHWScanResult">
+      <sequence>
+         <element name="BaselineManagerVmHWScanResult" type="integrity:BaselineManagerVmHWScanResult" minOccurs="0" maxOccurs="unbounded" />
+      </sequence>
+   </complexType>
+   <complexType name="BaselineManagerVmToolsStatus">
+      <complexContent>
+         <extension base="vim25:DynamicData">
+            <sequence>
+               <element name="vm" type="vim25:ManagedObjectReference" />
+               <element name="toolsStatus" type="xsd:string" minOccurs="0" />
+            </sequence>
+         </extension>
+      </complexContent>
+   </complexType>
+   <complexType name="ArrayOfBaselineManagerVmToolsStatus">
+      <sequence>
+         <element name="BaselineManagerVmToolsStatus" type="integrity:BaselineManagerVmToolsStatus" minOccurs="0" maxOccurs="unbounded" />
+      </sequence>
+   </complexType>
+   <complexType name="BaselineManagerBaselineEntityUpdateInfo">
+      <complexContent>
+         <extension base="vim25:DynamicData">
+            <sequence>
+               <element name="entity" type="vim25:ManagedObjectReference" />
+               <element name="baselineId" type="xsd:int" />
+               <element name="baselineApplicable" type="xsd:boolean" />
+               <element name="update" type="xsd:int" minOccurs="0" maxOccurs="unbounded" />
+            </sequence>
+         </extension>
+      </complexContent>
+   </complexType>
+   <complexType name="ArrayOfBaselineManagerBaselineEntityUpdateInfo">
+      <sequence>
+         <element name="BaselineManagerBaselineEntityUpdateInfo" type="integrity:BaselineManagerBaselineEntityUpdateInfo" minOccurs="0" maxOccurs="unbounded" />
+      </sequence>
+   </complexType>
+   <complexType name="BaselineSpec">
+      <complexContent>
+         <extension base="vim25:DynamicData">
+            <sequence>
+               <element name="name" type="xsd:string" />
+               <element name="description" type="xsd:string" minOccurs="0" />
+               <element name="attribute" type="integrity:BaselineAttribute" />
+               <element name="owner" type="xsd:string" minOccurs="0" />
+               <element name="ownerdata" type="xsd:string" minOccurs="0" />
+            </sequence>
+         </extension>
+      </complexContent>
+   </complexType>
+   <simpleType name="BaselineComplianceStatusStatus">
+      <restriction base="xsd:string">
+         <enumeration value="Compliant" />
+         <enumeration value="NotCompliant" />
+         <enumeration value="Unknown" />
+         <enumeration value="Incompatible" />
+      </restriction>
+   </simpleType>
+   <complexType name="BaselineComplianceStatus">
+      <complexContent>
+         <extension base="vim25:DynamicData">
+            <sequence>
+               <element name="key" type="xsd:int" />
+               <element name="status" type="xsd:string" />
+            </sequence>
+         </extension>
+      </complexContent>
+   </complexType>
+   <complexType name="ArrayOfBaselineComplianceStatus">
+      <sequence>
+         <element name="BaselineComplianceStatus" type="integrity:BaselineComplianceStatus" minOccurs="0" maxOccurs="unbounded" />
+      </sequence>
+   </complexType>
+   <complexType name="BaselineGroupComplianceStatus">
+      <complexContent>
+         <extension base="vim25:DynamicData">
+            <sequence>
+               <element name="key" type="xsd:int" />
+               <element name="status" type="xsd:string" />
+            </sequence>
+         </extension>
+      </complexContent>
+   </complexType>
+   <complexType name="ArrayOfBaselineGroupComplianceStatus">
+      <sequence>
+         <element name="BaselineGroupComplianceStatus" type="integrity:BaselineGroupComplianceStatus" minOccurs="0" maxOccurs="unbounded" />
+      </sequence>
+   </complexType>
+   <complexType name="ComplianceStatusManagerDetailedComplianceStatusSpec">
+      <complexContent>
+         <extension base="vim25:DynamicData">
+            <sequence>
+               <element name="baseline" type="xsd:int" maxOccurs="unbounded" />
+            </sequence>
+         </extension>
+      </complexContent>
+   </complexType>
+   <complexType name="ComplianceStatusManagerEntityBaselinesCompliance">
+      <complexContent>
+         <extension base="vim25:DynamicData">
+            <sequence>
+               <element name="entity" type="vim25:ManagedObjectReference" />
+               <element name="status" type="xsd:string" />
+               <element name="baselineId" type="xsd:int" maxOccurs="unbounded" />
+               <element name="baselineType" type="xsd:string" />
+               <element name="lastScanTime" type="xsd:dateTime" minOccurs="0" />
+               <element name="toolsUpgradeOnPowerCycle" type="xsd:boolean" minOccurs="0" />
+            </sequence>
+         </extension>
+      </complexContent>
+   </complexType>
+   <complexType name="ArrayOfComplianceStatusManagerEntityBaselinesCompliance">
+      <sequence>
+         <element name="ComplianceStatusManagerEntityBaselinesCompliance" type="integrity:ComplianceStatusManagerEntityBaselinesCompliance" minOccurs="0" maxOccurs="unbounded" />
+      </sequence>
+   </complexType>
+   <complexType name="ComplianceStatusManagerEntityComplianceCountsSummary">
+      <complexContent>
+         <extension base="vim25:DynamicData">
+            <sequence>
+               <element name="notCompliantEntities" type="xsd:int" />
+               <element name="inCompatibleEntities" type="xsd:int" />
+               <element name="unknownEntities" type="xsd:int" />
+               <element name="compliantEntities" type="xsd:int" />
+            </sequence>
+         </extension>
+      </complexContent>
+   </complexType>
+   <complexType name="ComplianceStatusManagerEntityBaselinesComplianceSummary">
+      <complexContent>
+         <extension base="vim25:DynamicData">
+            <sequence>
+               <element name="summary" type="integrity:ComplianceStatusManagerEntityComplianceCountsSummary" />
+               <element name="baselinesComplianceStatus" type="integrity:ComplianceStatusManagerEntityBaselinesCompliance" maxOccurs="unbounded" />
+            </sequence>
+         </extension>
+      </complexContent>
+   </complexType>
+   <simpleType name="ComplianceStatusManagerUpdateStatus">
+      <restriction base="xsd:string">
+         <enumeration value="Missing" />
+         <enumeration value="Installed" />
+         <enumeration value="NotApplicable" />
+         <enumeration value="Unknown" />
+         <enumeration value="Staged" />
+         <enumeration value="Conflict" />
+         <enumeration value="ObsoletedByHost" />
+         <enumeration value="MissingPackage" />
+         <enumeration value="NotInstallable" />
+         <enumeration value="NewModule" />
+         <enumeration value="UnsupportedUpgrade" />
+         <enumeration value="IncompatibleHardware" />
+         <enumeration value="ConflictingNewModule" />
+         <enumeration value="InstalledRecalled" />
+         <enumeration value="NotApplicableRecalled" />
+         <enumeration value="PrerequisiteRecalled" />
+         <enumeration value="MissingRecalled" />
+         <enumeration value="NewModuleRecalled" />
+         <enumeration value="PrerequisiteRecalledInstalled" />
+         <enumeration value="IncompatibleSoftwareConfig" />
+      </restriction>
+   </simpleType>
+   <complexType name="ComplianceStatusManagerUpdateCompliantStatus">
+      <complexContent>
+         <extension base="vim25:DynamicData">
+            <sequence>
+               <element name="key" type="vim25:ManagedObjectReference" />
+               <element name="missingUpdate" type="xsd:int" minOccurs="0" maxOccurs="unbounded" />
+               <element name="installedUpdate" type="xsd:int" minOccurs="0" maxOccurs="unbounded" />
+               <element name="stagedUpdate" type="xsd:int" minOccurs="0" maxOccurs="unbounded" />
+               <element name="notApplicableUpdate" type="xsd:int" minOccurs="0" maxOccurs="unbounded" />
+               <element name="UnknownUpdate" type="xsd:int" minOccurs="0" maxOccurs="unbounded" />
+               <element name="conflict" type="xsd:int" minOccurs="0" maxOccurs="unbounded" />
+               <element name="obsoletedByHost" type="xsd:int" minOccurs="0" maxOccurs="unbounded" />
+               <element name="missingPackage" type="xsd:int" minOccurs="0" maxOccurs="unbounded" />
+               <element name="notInstallable" type="xsd:int" minOccurs="0" maxOccurs="unbounded" />
+               <element name="newModule" type="xsd:int" minOccurs="0" maxOccurs="unbounded" />
+               <element name="unSupportedUpgrade" type="xsd:int" minOccurs="0" maxOccurs="unbounded" />
+               <element name="incompatibleHardware" type="xsd:int" minOccurs="0" maxOccurs="unbounded" />
+               <element name="conflictingNewModule" type="xsd:int" minOccurs="0" maxOccurs="unbounded" />
+               <element name="installedRecalled" type="xsd:int" minOccurs="0" maxOccurs="unbounded" />
+               <element name="notApplicableRecalled" type="xsd:int" minOccurs="0" maxOccurs="unbounded" />
+               <element name="prerequisiteRecalled" type="xsd:int" minOccurs="0" maxOccurs="unbounded" />
+               <element name="missingRecalled" type="xsd:int" minOccurs="0" maxOccurs="unbounded" />
+               <element name="newModuleRecalled" type="xsd:int" minOccurs="0" maxOccurs="unbounded" />
+               <element name="prerequisiteRecalledInstalled" type="xsd:int" minOccurs="0" maxOccurs="unbounded" />
+               <element name="incompatibleSoftwareConfig" type="xsd:int" minOccurs="0" maxOccurs="unbounded" />
+            </sequence>
+         </extension>
+      </complexContent>
+   </complexType>
+   <complexType name="ArrayOfComplianceStatusManagerUpdateCompliantStatus">
+      <sequence>
+         <element name="ComplianceStatusManagerUpdateCompliantStatus" type="integrity:ComplianceStatusManagerUpdateCompliantStatus" minOccurs="0" maxOccurs="unbounded" />
+      </sequence>
+   </complexType>
+   <complexType name="ComplianceStatusManagerBaselineUpdateStatus">
+      <complexContent>
+         <extension base="vim25:DynamicData">
+            <sequence>
+               <element name="baselineId" type="xsd:int" />
+               <element name="updateStatus" type="integrity:ComplianceStatusManagerUpdateCompliantStatus" minOccurs="0" maxOccurs="unbounded" />
+            </sequence>
+         </extension>
+      </complexContent>
+   </complexType>
+   <complexType name="ArrayOfComplianceStatusManagerBaselineUpdateStatus">
+      <sequence>
+         <element name="ComplianceStatusManagerBaselineUpdateStatus" type="integrity:ComplianceStatusManagerBaselineUpdateStatus" minOccurs="0" maxOccurs="unbounded" />
+      </sequence>
+   </complexType>
+   <complexType name="ComplianceStatusManagerUpdateStatusSummary">
+      <complexContent>
+         <extension base="vim25:DynamicData">
+            <sequence>
+               <element name="status" type="xsd:string" minOccurs="0" />
+               <element name="patchCount" type="xsd:int" minOccurs="0" />
+               <element name="upgradeCount" type="xsd:int" minOccurs="0" />
+               <element name="stagedPatchCount" type="xsd:int" minOccurs="0" />
+               <element name="stagedUpgradeCount" type="xsd:int" minOccurs="0" />
+               <element name="extensionCount" type="xsd:int" minOccurs="0" />
+               <element name="stagedExtensionCount" type="xsd:int" minOccurs="0" />
+            </sequence>
+         </extension>
+      </complexContent>
+   </complexType>
+   <complexType name="ArrayOfComplianceStatusManagerUpdateStatusSummary">
+      <sequence>
+         <element name="ComplianceStatusManagerUpdateStatusSummary" type="integrity:ComplianceStatusManagerUpdateStatusSummary" minOccurs="0" maxOccurs="unbounded" />
+      </sequence>
+   </complexType>
+   <complexType name="ComplianceStatusManagerEntityComplianceStatus">
+      <complexContent>
+         <extension base="vim25:DynamicData">
+            <sequence>
+               <element name="entity" type="vim25:ManagedObjectReference" />
+               <element name="baseline" type="xsd:int" minOccurs="0" maxOccurs="unbounded" />
+               <element name="lastScanTime" type="xsd:dateTime" minOccurs="0" />
+               <element name="updateStatus" type="integrity:ComplianceStatusManagerUpdateStatusSummary" minOccurs="0" maxOccurs="unbounded" />
+               <element name="toolsUpgradeOnPowerCycle" type="xsd:boolean" minOccurs="0" />
+            </sequence>
+         </extension>
+      </complexContent>
+   </complexType>
+   <complexType name="ArrayOfComplianceStatusManagerEntityComplianceStatus">
+      <sequence>
+         <element name="ComplianceStatusManagerEntityComplianceStatus" type="integrity:ComplianceStatusManagerEntityComplianceStatus" minOccurs="0" maxOccurs="unbounded" />
+      </sequence>
+   </complexType>
+   <complexType name="ComplianceStatusManagerEntityStatusSummary">
+      <complexContent>
+         <extension base="vim25:DynamicData">
+            <sequence>
+               <element name="entityStatus" type="integrity:ComplianceStatusManagerEntityComplianceStatus" minOccurs="0" maxOccurs="unbounded" />
+               <element name="summary" type="integrity:ComplianceStatusManagerUpdateStatusSummary" minOccurs="0" maxOccurs="unbounded" />
+            </sequence>
+         </extension>
+      </complexContent>
+   </complexType>
+   <complexType name="GuestRemediationRollbackOption">
+      <complexContent>
+         <extension base="vim25:DynamicData">
+            <sequence>
+               <element name="createSnapshot" type="xsd:boolean" />
+               <element name="takeMemoryDump" type="xsd:boolean" />
+               <element name="hoursToKeepSnapshot" type="xsd:int" minOccurs="0" />
+               <element name="snapshotName" type="xsd:string" minOccurs="0" />
+               <element name="snapshotDesc" type="xsd:string" minOccurs="0" />
+            </sequence>
+         </extension>
+      </complexContent>
+   </complexType>
+   <simpleType name="GuestRemediationScheduleOptionActionTime">
+      <restriction base="xsd:string">
+         <enumeration value="Immediate" />
+         <enumeration value="Later" />
+         <enumeration value="Notification" />
+      </restriction>
+   </simpleType>
+   <complexType name="GuestRemediationScheduleOption">
+      <complexContent>
+         <extension base="vim25:DynamicData">
+            <sequence>
+               <element name="powerOpOffline" type="xsd:string" />
+               <element name="powerOpOfflineTime" type="xsd:dateTime" minOccurs="0" />
+               <element name="powerOpOnline" type="xsd:string" />
+               <element name="powerOpOnlineTime" type="xsd:dateTime" minOccurs="0" />
+               <element name="includeSuspendedVM" type="xsd:boolean" />
+               <element name="powerOpSuspended" type="xsd:string" />
+               <element name="powerOpSuspendedTime" type="xsd:dateTime" minOccurs="0" />
+               <element name="scheduledTaskName" type="xsd:string" minOccurs="0" />
+               <element name="scheduledTaskDescription" type="xsd:string" minOccurs="0" />
+               <element name="upgradeToolsOnNextReboot" type="xsd:boolean" minOccurs="0" />
+            </sequence>
+         </extension>
+      </complexContent>
+   </complexType>
+   <simpleType name="HostRemediationScheduleOptionFailureAction">
+      <restriction base="xsd:string">
+         <enumeration value="FailTask" />
+         <enumeration value="Retry" />
+      </restriction>
+   </simpleType>
+   <simpleType name="HostRemediationScheduleOptionPreRemediationPowerAction">
+      <restriction base="xsd:string">
+         <enumeration value="PowerOffVMs" />
+         <enumeration value="SuspendVMs" />
+         <enumeration value="DoNotChangeVMsPowerState" />
+      </restriction>
+   </simpleType>
+   <complexType name="HostRemediationScheduleOption">
+      <complexContent>
+         <extension base="vim25:DynamicData">
+            <sequence>
+               <element name="updateHostTime" type="xsd:dateTime" minOccurs="0" />
+               <element name="evacuationTimeout" type="xsd:int" minOccurs="0" />
+               <element name="failureAction" type="xsd:string" />
+               <element name="preRemediationPowerAction" type="xsd:string" minOccurs="0" />
+               <element name="retryDelay" type="xsd:int" minOccurs="0" />
+               <element name="numberOfRetries" type="xsd:int" minOccurs="0" />
+               <element name="scheduledTaskName" type="xsd:string" minOccurs="0" />
+               <element name="scheduledTaskDescription" type="xsd:string" minOccurs="0" />
+               <element name="disconnectRemovableDevices" type="xsd:boolean" minOccurs="0" />
+               <element name="disableDpm" type="xsd:boolean" minOccurs="0" />
+               <element name="disableHac" type="xsd:boolean" minOccurs="0" />
+               <element name="disableFt" type="xsd:boolean" minOccurs="0" />
+               <element name="concurrentRemediationInCluster" type="xsd:boolean" minOccurs="0" />
+               <element name="allowStatelessRemediation" type="xsd:boolean" minOccurs="0" />
+               <element name="evacuateOfflineVMs" type="xsd:boolean" minOccurs="0" />
+               <element name="maxHostsForParallelRemediationInCluster" type="xsd:int" minOccurs="0" />
+            </sequence>
+         </extension>
+      </complexContent>
+   </complexType>
+   <complexType name="ConfigSpec">
+      <complexContent>
+         <extension base="vim25:DynamicData">
+            <sequence>
+               <element name="guestRemediationRollbackOption" type="integrity:GuestRemediationRollbackOption" />
+               <element name="hostRemediationScheduleOption" type="integrity:HostRemediationScheduleOption" />
+               <element name="hostUpgradeOptions" type="integrity:HostUpgradeOptionManagerOptions" maxOccurs="unbounded" />
+            </sequence>
+         </extension>
+      </complexContent>
+   </complexType>
+   <complexType name="VciDVSOption">
+      <complexContent>
+         <extension base="vim25:DynamicData">
+            <sequence>
+               <element name="feedURL" type="xsd:string" />
+            </sequence>
+         </extension>
+      </complexContent>
+   </complexType>
+   <complexType name="VciDVSScanOption">
+      <complexContent>
+         <extension base="integrity:VciDVSOption">
+            <sequence>
+            </sequence>
+         </extension>
+      </complexContent>
+   </complexType>
+   <complexType name="VciDVSScanSpec">
+      <complexContent>
+         <extension base="vim25:DynamicData">
+            <sequence>
+               <element name="softwareUpdateUniqueId" type="xsd:string" maxOccurs="unbounded" />
+               <element name="option" type="integrity:VciDVSScanOption" minOccurs="0" />
+            </sequence>
+         </extension>
+      </complexContent>
+   </complexType>
+   <complexType name="VciDVSStagingOption">
+      <complexContent>
+         <extension base="integrity:VciDVSOption">
+            <sequence>
+            </sequence>
+         </extension>
+      </complexContent>
+   </complexType>
+   <complexType name="VciDVSStagingSpec">
+      <complexContent>
+         <extension base="vim25:DynamicData">
+            <sequence>
+               <element name="softwareUpdateUniqueId" type="xsd:string" maxOccurs="unbounded" />
+               <element name="option" type="integrity:VciDVSStagingOption" minOccurs="0" />
+            </sequence>
+         </extension>
+      </complexContent>
+   </complexType>
+   <complexType name="VciDVSRemediationOption">
+      <complexContent>
+         <extension base="integrity:VciDVSOption">
+            <sequence>
+            </sequence>
+         </extension>
+      </complexContent>
+   </complexType>
+   <complexType name="VciDVSRemediationSpec">
+      <complexContent>
+         <extension base="vim25:DynamicData">
+            <sequence>
+               <element name="softwareUpdateUniqueId" type="xsd:string" maxOccurs="unbounded" />
+               <element name="option" type="integrity:VciDVSRemediationOption" />
+            </sequence>
+         </extension>
+      </complexContent>
+   </complexType>
+   <simpleType name="VciDVSUpdateStatus">
+      <restriction base="xsd:string">
+         <enumeration value="Missing" />
+         <enumeration value="Installed" />
+         <enumeration value="NotApplicable" />
+         <enumeration value="Unknown" />
+         <enumeration value="Staged" />
+         <enumeration value="Conflict" />
+         <enumeration value="ObsoletedByHost" />
+      </restriction>
+   </simpleType>
+   <simpleType name="VciDVSResult">
+      <restriction base="xsd:string">
+         <enumeration value="Success" />
+         <enumeration value="Fail" />
+      </restriction>
+   </simpleType>
+   <complexType name="VciDVSUpdateComplianceStatus">
+      <complexContent>
+         <extension base="vim25:DynamicData">
+            <sequence>
+               <element name="softwareUpdateUniqueId" type="xsd:string" />
+               <element name="status" type="xsd:string" />
+               <element name="result" type="xsd:string" />
+               <element name="fault" type="vim25:LocalizedMethodFault" minOccurs="0" />
+               <element name="replacementUpdateUniqueId" type="xsd:string" minOccurs="0" />
+            </sequence>
+         </extension>
+      </complexContent>
+   </complexType>
+   <complexType name="ArrayOfVciDVSUpdateComplianceStatus">
+      <sequence>
+         <element name="VciDVSUpdateComplianceStatus" type="integrity:VciDVSUpdateComplianceStatus" minOccurs="0" maxOccurs="unbounded" />
+      </sequence>
+   </complexType>
+   <complexType name="VciDVSUpdateComplianceStatusGroup">
+      <complexContent>
+         <extension base="vim25:DynamicData">
+            <sequence>
+               <element name="entity" type="vim25:ManagedObjectReference" />
+               <element name="status" type="integrity:VciDVSUpdateComplianceStatus" minOccurs="0" maxOccurs="unbounded" />
+            </sequence>
+         </extension>
+      </complexContent>
+   </complexType>
+   <complexType name="ArrayOfVciDVSUpdateComplianceStatusGroup">
+      <sequence>
+         <element name="VciDVSUpdateComplianceStatusGroup" type="integrity:VciDVSUpdateComplianceStatusGroup" minOccurs="0" maxOccurs="unbounded" />
+      </sequence>
+   </complexType>
+   <complexType name="VciDVSUpdateComplianceStatusSpec">
+      <complexContent>
+         <extension base="vim25:DynamicData">
+            <sequence>
+               <element name="operationId" type="xsd:string" maxOccurs="unbounded" />
+               <element name="softwareUpdateUniqueId" type="xsd:string" maxOccurs="unbounded" />
+            </sequence>
+         </extension>
+      </complexContent>
+   </complexType>
+   <complexType name="BasicComplianceStatus">
+      <complexContent>
+         <extension base="vim25:DynamicData">
+            <sequence>
+               <element name="key" type="xsd:int" />
+               <element name="status" type="xsd:string" />
+               <element name="reason" type="vim25:LocalizableMessage" minOccurs="0" maxOccurs="unbounded" />
+            </sequence>
+         </extension>
+      </complexContent>
+   </complexType>
+   <simpleType name="EulaManagerEulaStatus">
+      <restriction base="xsd:string">
+         <enumeration value="EULA_NOTAPPLICABLE" />
+         <enumeration value="EULA_ACCEPTED" />
+         <enumeration value="EULA_NOTACCEPTED" />
+      </restriction>
+   </simpleType>
+   <simpleType name="FileUploadManagerFileFunctionalType">
+      <restriction base="xsd:string">
+         <enumeration value="Upgrade" />
+         <enumeration value="Patch" />
+         <enumeration value="StateElement" />
+      </restriction>
+   </simpleType>
+   <simpleType name="FileUploadManagerOperationType">
+      <restriction base="xsd:string">
+         <enumeration value="Upload" />
+         <enumeration value="Confirm" />
+         <enumeration value="UploadAndConfirm" />
+         <enumeration value="Cancel" />
+      </restriction>
+   </simpleType>
+   <complexType name="FileUploadManagerFileUploadSpec">
+      <complexContent>
+         <extension base="vim25:DynamicData">
+            <sequence>
+               <element name="fileFunctionalType" type="xsd:string" />
+               <element name="filePath" type="xsd:string" />
+               <element name="opType" type="xsd:string" />
+               <element name="sessionId" type="xsd:string" />
+            </sequence>
+         </extension>
+      </complexContent>
+   </complexType>
+   <complexType name="FileUploadManagerFileUploadResponse">
+      <complexContent>
+         <extension base="vim25:DynamicData">
+            <sequence>
+               <element name="type" type="xsd:string" />
+               <element name="sessionId" type="xsd:string" />
+               <element name="details" type="xsd:anyType" minOccurs="0" />
+            </sequence>
+         </extension>
+      </complexContent>
+   </complexType>
+   <complexType name="PatchBundleDetail">
+      <complexContent>
+         <extension base="vim25:DynamicData">
+            <sequence>
+               <element name="description" type="xsd:string" />
+               <element name="updates" type="integrity:SoftwareUpdateInfo" maxOccurs="unbounded" />
+            </sequence>
+         </extension>
+      </complexContent>
+   </complexType>
+   <complexType name="UpgradePackageDetail">
+      <complexContent>
+         <extension base="vim25:DynamicData">
+            <sequence>
+               <element name="release" type="integrity:UpgradeReleaseManagerUpgradeRelease" />
+               <element name="upgrade" type="integrity:UpgradeProductManagerUpgradeProduct" />
+            </sequence>
+         </extension>
+      </complexContent>
+   </complexType>
+   <complexType name="HostUpgradeBaselineSpec">
+      <complexContent>
+         <extension base="integrity:UpgradeBaselineSpec">
+            <sequence>
+               <element name="upgradeReleaseKey" type="xsd:string" />
+            </sequence>
+         </extension>
+      </complexContent>
+   </complexType>
+   <complexType name="HostUpgradeBaselineInfo">
+      <complexContent>
+         <extension base="integrity:UpgradeBaselineInfo">
+            <sequence>
+            </sequence>
+         </extension>
+      </complexContent>
+   </complexType>
+   <complexType name="HostUpgradeOptionManagerOptions">
+      <complexContent>
+         <extension base="vim25:DynamicData">
+            <sequence>
+               <element name="ignore3rdPartyModules" type="xsd:boolean" minOccurs="0" />
+            </sequence>
+         </extension>
+      </complexContent>
+   </complexType>
+   <complexType name="ArrayOfHostUpgradeOptionManagerOptions">
+      <sequence>
+         <element name="HostUpgradeOptionManagerOptions" type="integrity:HostUpgradeOptionManagerOptions" minOccurs="0" maxOccurs="unbounded" />
+      </sequence>
+   </complexType>
+   <complexType name="IntegrityDescription">
+      <complexContent>
+         <extension base="vim25:DynamicData">
+            <sequence>
+               <element name="reasonCode" type="integrity:VumElementDescription" maxOccurs="unbounded" />
+               <element name="complianceStatus" type="integrity:VumElementDescription" maxOccurs="unbounded" />
+               <element name="contentType" type="integrity:VumElementDescription" maxOccurs="unbounded" />
+               <element name="updateStatus" type="integrity:VumElementDescription" maxOccurs="unbounded" />
+               <element name="impactLevel" type="integrity:VumElementDescription" maxOccurs="unbounded" />
+               <element name="hostUpdateCategory" type="integrity:VumElementDescription" maxOccurs="unbounded" />
+               <element name="guestActionTime" type="integrity:VumElementDescription" maxOccurs="unbounded" />
+               <element name="hostFailureAction" type="integrity:VumElementDescription" maxOccurs="unbounded" />
+               <element name="preRemediationPowerAction" type="integrity:VumElementDescription" maxOccurs="unbounded" />
+               <element name="updateType" type="integrity:VumElementDescription" maxOccurs="unbounded" />
+               <element name="updateTargetType" type="integrity:VumElementDescription" maxOccurs="unbounded" />
+               <element name="baselineType" type="integrity:VumElementDescription" maxOccurs="unbounded" />
+               <element name="baselineAttribute" type="integrity:VumElementDescription" maxOccurs="unbounded" />
+               <element name="acceptanceLevel" type="integrity:VumElementDescription" maxOccurs="unbounded" />
+            </sequence>
+         </extension>
+      </complexContent>
+   </complexType>
+   <simpleType name="MissingUpdateReasonCode">
+      <restriction base="xsd:string">
+         <enumeration value="fileOutOfDate" />
+         <enumeration value="regOutOfDate" />
+      </restriction>
+   </simpleType>
+   <complexType name="MissingUpdate">
+      <complexContent>
+         <extension base="integrity:Vulnerability">
+            <sequence>
+               <element name="reason" type="xsd:string" minOccurs="0" maxOccurs="unbounded" />
+               <element name="update" type="integrity:SoftwareUpdateInfo" />
+               <element name="remediationStatus" type="xsd:int" />
+            </sequence>
+         </extension>
+      </complexContent>
+   </complexType>
+   <complexType name="NewUpdateConfigSpec">
+      <complexContent>
+         <extension base="vim25:DynamicData">
+            <sequence>
+               <element name="enabled" type="xsd:boolean" />
+               <element name="name" type="xsd:string" />
+               <element name="description" type="xsd:string" />
+               <element name="newUpdateScheduler" type="integrity:Scheduler" minOccurs="0" />
+               <element name="useSmartDownload" type="xsd:boolean" minOccurs="0" />
+               <element name="emailNotificationList" type="xsd:string" minOccurs="0" />
+            </sequence>
+         </extension>
+      </complexContent>
+   </complexType>
+   <simpleType name="PlatformInfoOsFamily">
+      <restriction base="xsd:string">
+         <enumeration value="NO_OS" />
+         <enumeration value="WINDOWS" />
+         <enumeration value="LINUX" />
+         <enumeration value="ESX" />
+         <enumeration value="EESX" />
+         <enumeration value="OTHER" />
+      </restriction>
+   </simpleType>
+   <complexType name="PlatformInfo">
+      <complexContent>
+         <extension base="vim25:DynamicData">
+            <sequence>
+               <element name="family" type="xsd:string" />
+               <element name="displayName" type="xsd:string" />
+               <element name="version" type="xsd:string" />
+               <element name="locale" type="xsd:string" />
+            </sequence>
+         </extension>
+      </complexContent>
+   </complexType>
+   <complexType name="ArrayOfPlatformInfo">
+      <sequence>
+         <element name="PlatformInfo" type="integrity:PlatformInfo" minOccurs="0" maxOccurs="unbounded" />
+      </sequence>
+   </complexType>
+   <complexType name="Scheduler">
+      <complexContent>
+         <extension base="vim25:DynamicData">
+            <sequence>
+               <element name="activeTime" type="xsd:dateTime" minOccurs="0" />
+               <element name="expireTime" type="xsd:dateTime" minOccurs="0" />
+            </sequence>
+         </extension>
+      </complexContent>
+   </complexType>
+   <complexType name="AfterStartupScheduler">
+      <complexContent>
+         <extension base="integrity:Scheduler">
+            <sequence>
+               <element name="minute" type="xsd:int" />
+            </sequence>
+         </extension>
+      </complexContent>
+   </complexType>
+   <complexType name="OnceScheduler">
+      <complexContent>
+         <extension base="integrity:Scheduler">
+            <sequence>
+               <element name="runAt" type="xsd:dateTime" minOccurs="0" />
+            </sequence>
+         </extension>
+      </complexContent>
+   </complexType>
+   <complexType name="RecurrentScheduler">
+      <complexContent>
+         <extension base="integrity:Scheduler">
+            <sequence>
+               <element name="interval" type="xsd:int" />
+            </sequence>
+         </extension>
+      </complexContent>
+   </complexType>
+   <complexType name="HourlyScheduler">
+      <complexContent>
+         <extension base="integrity:RecurrentScheduler">
+            <sequence>
+               <element name="minute" type="xsd:int" />
+            </sequence>
+         </extension>
+      </complexContent>
+   </complexType>
+   <complexType name="DailyScheduler">
+      <complexContent>
+         <extension base="integrity:HourlyScheduler">
+            <sequence>
+               <element name="hour" type="xsd:int" />
+            </sequence>
+         </extension>
+      </complexContent>
+   </complexType>
+   <complexType name="WeeklyScheduler">
+      <complexContent>
+         <extension base="integrity:DailyScheduler">
+            <sequence>
+               <element name="sunday" type="xsd:boolean" />
+               <element name="monday" type="xsd:boolean" />
+               <element name="tuesday" type="xsd:boolean" />
+               <element name="wednesday" type="xsd:boolean" />
+               <element name="thursday" type="xsd:boolean" />
+               <element name="friday" type="xsd:boolean" />
+               <element name="saturday" type="xsd:boolean" />
+            </sequence>
+         </extension>
+      </complexContent>
+   </complexType>
+   <complexType name="MonthlyScheduler">
+      <complexContent>
+         <extension base="integrity:DailyScheduler">
+            <sequence>
+            </sequence>
+         </extension>
+      </complexContent>
+   </complexType>
+   <complexType name="MonthlyByDayScheduler">
+      <complexContent>
+         <extension base="integrity:MonthlyScheduler">
+            <sequence>
+               <element name="day" type="xsd:int" />
+            </sequence>
+         </extension>
+      </complexContent>
+   </complexType>
+   <simpleType name="MonthlyByWeekdaySchedulerDayOfWeek">
+      <restriction base="xsd:string">
+         <enumeration value="sunday" />
+         <enumeration value="monday" />
+         <enumeration value="tuesday" />
+         <enumeration value="wednesday" />
+         <enumeration value="thursday" />
+         <enumeration value="friday" />
+         <enumeration value="saturday" />
+      </restriction>
+   </simpleType>
+   <simpleType name="MonthlyByWeekdaySchedulerWeekOfMonth">
+      <restriction base="xsd:string">
+         <enumeration value="first" />
+         <enumeration value="second" />
+         <enumeration value="third" />
+         <enumeration value="fourth" />
+         <enumeration value="last" />
+      </restriction>
+   </simpleType>
+   <complexType name="MonthlyByWeekdayScheduler">
+      <complexContent>
+         <extension base="integrity:MonthlyScheduler">
+            <sequence>
+               <element name="offset" type="integrity:MonthlyByWeekdaySchedulerWeekOfMonth" />
+               <element name="weekday" type="integrity:MonthlyByWeekdaySchedulerDayOfWeek" />
+            </sequence>
+         </extension>
+      </complexContent>
+   </complexType>
+   <complexType name="IntegrityUserSession">
+      <complexContent>
+         <extension base="vim25:DynamicData">
+            <sequence>
+               <element name="key" type="xsd:string" />
+               <element name="userName" type="xsd:string" />
+               <element name="locale" type="xsd:string" minOccurs="0" />
+            </sequence>
+         </extension>
+      </complexContent>
+   </complexType>
+   <complexType name="SoftwareUpdateDetail">
+      <complexContent>
+         <extension base="vim25:DynamicData">
+            <sequence>
+               <element name="status" type="xsd:int" />
+               <element name="idByVendor" type="xsd:string" minOccurs="0" maxOccurs="unbounded" />
+               <element name="detailsUrl" type="xsd:string" minOccurs="0" />
+               <element name="description" type="xsd:string" />
+               <element name="vendor" type="xsd:string" minOccurs="0" />
+               <element name="installSeparately" type="xsd:boolean" />
+               <element name="affectedComponent" type="xsd:string" minOccurs="0" maxOccurs="unbounded" />
+               <element name="binaryPath" type="xsd:string" minOccurs="0" />
+               <element name="installFlags" type="xsd:string" minOccurs="0" />
+               <element name="patchSize" type="xsd:int" minOccurs="0" />
+               <element name="bugtraqId" type="xsd:string" minOccurs="0" maxOccurs="unbounded" />
+               <element name="cveId" type="xsd:string" minOccurs="0" maxOccurs="unbounded" />
+            </sequence>
+         </extension>
+      </complexContent>
+   </complexType>
+   <complexType name="ServicePackDetail">
+      <complexContent>
+         <extension base="integrity:SoftwareUpdateDetail">
+            <sequence>
+               <element name="spId" type="xsd:int" />
+            </sequence>
+         </extension>
+      </complexContent>
+   </complexType>
+   <simpleType name="SoftwareUpdateInfoUpdateType">
+      <restriction base="xsd:string">
+         <enumeration value="Other" />
+         <enumeration value="OperatingSystem" />
+         <enumeration value="Security" />
+      </restriction>
+   </simpleType>
+   <simpleType name="SoftwareUpdateInfoImpactLevel">
+      <restriction base="xsd:string">
+         <enumeration value="Low" />
+         <enumeration value="Moderate" />
+         <enumeration value="Important" />
+         <enumeration value="Critical" />
+      </restriction>
+   </simpleType>
+   <simpleType name="SoftwareUpdateInfoTargetType">
+      <restriction base="xsd:string">
+         <enumeration value="VM" />
+         <enumeration value="HOST" />
+         <enumeration value="VA" />
+      </restriction>
+   </simpleType>
+   <simpleType name="SoftwareUpdateInfoTargetComponent">
+      <restriction base="xsd:string">
+         <enumeration value="HOST_GENERAL" />
+         <enumeration value="HOST_THIRDPARTY" />
+         <enumeration value="VM_GENERAL" />
+         <enumeration value="VM_TOOLS" />
+         <enumeration value="VM_HARDWAREVERSION" />
+         <enumeration value="VA_GENERAL" />
+      </restriction>
+   </simpleType>
+   <simpleType name="SoftwareUpdateInfoHostUpdateCategory">
+      <restriction base="xsd:string">
+         <enumeration value="SecurityFix" />
+         <enumeration value="BugFix" />
+         <enumeration value="Enhancement" />
+         <enumeration value="Recall" />
+         <enumeration value="RecallFix" />
+         <enumeration value="Info" />
+         <enumeration value="Misc" />
+      </restriction>
+   </simpleType>
+   <complexType name="SoftwareUpdateInfo">
+      <complexContent>
+         <extension base="vim25:DynamicData">
+            <sequence>
+               <element name="key" type="xsd:int" />
+               <element name="idByVendor" type="xsd:string" minOccurs="0" />
+               <element name="releaseDate" type="xsd:dateTime" minOccurs="0" />
+               <element name="title" type="xsd:string" />
+               <element name="language" type="xsd:string" />
+               <element name="updateType" type="xsd:string" />
+               <element name="severity" type="xsd:string" />
+               <element name="os" type="integrity:PlatformInfo" minOccurs="0" maxOccurs="unbounded" />
+               <element name="targetType" type="xsd:string" />
+               <element name="bundleType" type="xsd:string" minOccurs="0" />
+               <element name="installationImpact" type="xsd:string" minOccurs="0" maxOccurs="unbounded" />
+               <element name="lastUpdateTime" type="xsd:dateTime" minOccurs="0" />
+               <element name="vendor" type="xsd:string" minOccurs="0" />
+               <element name="recalled" type="xsd:boolean" minOccurs="0" />
+               <element name="hostUpdateCategory" type="xsd:string" minOccurs="0" />
+            </sequence>
+         </extension>
+      </complexContent>
+   </complexType>
+   <complexType name="ArrayOfSoftwareUpdateInfo">
+      <sequence>
+         <element name="SoftwareUpdateInfo" type="integrity:SoftwareUpdateInfo" minOccurs="0" maxOccurs="unbounded" />
+      </sequence>
+   </complexType>
+   <complexType name="NotificationInfo">
+      <complexContent>
+         <extension base="integrity:SoftwareUpdateInfo">
+            <sequence>
+               <element name="notificationContent" type="xsd:string" minOccurs="0" />
+               <element name="isHTML" type="xsd:boolean" />
+            </sequence>
+         </extension>
+      </complexContent>
+   </complexType>
+   <complexType name="ArrayOfNotificationInfo">
+      <sequence>
+         <element name="NotificationInfo" type="integrity:NotificationInfo" minOccurs="0" maxOccurs="unbounded" />
+      </sequence>
+   </complexType>
+   <complexType name="SoftwareUpdate">
+      <complexContent>
+         <extension base="vim25:DynamicData">
+            <sequence>
+               <element name="info" type="integrity:SoftwareUpdateInfo" />
+               <element name="detail" type="integrity:SoftwareUpdateDetail" />
+            </sequence>
+         </extension>
+      </complexContent>
+   </complexType>
+   <complexType name="ArrayOfSoftwareUpdate">
+      <sequence>
+         <element name="SoftwareUpdate" type="integrity:SoftwareUpdate" minOccurs="0" maxOccurs="unbounded" />
+      </sequence>
+   </complexType>
+   <simpleType name="SoftwareUpdateURLURLType">
+      <restriction base="xsd:string">
+         <enumeration value="VMWindowsPatches" />
+         <enumeration value="VMUnixPatches" />
+         <enumeration value="ESX3xHostPatches" />
+         <enumeration value="ESX4xHostPatches" />
+         <enumeration value="ThirdPartyHostPatches" />
+         <enumeration value="VAUpgrades" />
+         <enumeration value="ThirdPartyVAUpgrades" />
+         <enumeration value="IntranetPatchSource" />
+         <enumeration value="Unknown" />
+      </restriction>
+   </simpleType>
+   <complexType name="SoftwareUpdateURL">
+      <complexContent>
+         <extension base="vim25:DynamicData">
+            <sequence>
+               <element name="url" type="xsd:string" />
+               <element name="description" type="xsd:string" />
+               <element name="systemDefined" type="xsd:boolean" />
+               <element name="urlTypes" type="xsd:string" maxOccurs="unbounded" />
+               <element name="enabled" type="xsd:boolean" />
+            </sequence>
+         </extension>
+      </complexContent>
+   </complexType>
+   <complexType name="ArrayOfSoftwareUpdateURL">
+      <sequence>
+         <element name="SoftwareUpdateURL" type="integrity:SoftwareUpdateURL" minOccurs="0" maxOccurs="unbounded" />
+      </sequence>
+   </complexType>
+   <complexType name="URLTestResult">
+      <complexContent>
+         <extension base="vim25:DynamicData">
+            <sequence>
+               <element name="url" type="xsd:string" />
+               <element name="testResult" type="xsd:boolean" />
+               <element name="urlTypes" type="xsd:string" minOccurs="0" maxOccurs="unbounded" />
+               <element name="reason" type="vim25:LocalizableMessage" minOccurs="0" />
+            </sequence>
+         </extension>
+      </complexContent>
+   </complexType>
+   <complexType name="BaselineSoftwareUpdates">
+      <complexContent>
+         <extension base="vim25:DynamicData">
+            <sequence>
+               <element name="query" type="integrity:UpdateManagerSearchSpec" minOccurs="0" />
+               <element name="updateId" type="xsd:int" minOccurs="0" maxOccurs="unbounded" />
+               <element name="excludedUpdateId" type="xsd:int" minOccurs="0" maxOccurs="unbounded" />
+            </sequence>
+         </extension>
+      </complexContent>
+   </complexType>
+   <complexType name="UpdateBaselineSpec">
+      <complexContent>
+         <extension base="integrity:BaselineSpec">
+            <sequence>
+               <element name="updates" type="integrity:BaselineSoftwareUpdates" minOccurs="0" />
+            </sequence>
+         </extension>
+      </complexContent>
+   </complexType>
+   <complexType name="UpdateBaselineInfo">
+      <complexContent>
+         <extension base="integrity:BaselineInfo">
+            <sequence>
+               <element name="numberOfUpdates" type="xsd:int" />
+            </sequence>
+         </extension>
+      </complexContent>
+   </complexType>
+   <complexType name="UpdateComplianceStatus">
+      <complexContent>
+         <extension base="integrity:BasicComplianceStatus">
+            <sequence>
+            </sequence>
+         </extension>
+      </complexContent>
+   </complexType>
+   <complexType name="ArrayOfUpdateComplianceStatus">
+      <sequence>
+         <element name="UpdateComplianceStatus" type="integrity:UpdateComplianceStatus" minOccurs="0" maxOccurs="unbounded" />
+      </sequence>
+   </complexType>
+   <complexType name="UpdateComplianceStatusReport">
+      <complexContent>
+         <extension base="vim25:DynamicData">
+            <sequence>
+               <element name="lastScanTime" type="xsd:dateTime" minOccurs="0" />
+               <element name="detailStatuses" type="integrity:UpdateComplianceStatus" minOccurs="0" maxOccurs="unbounded" />
+            </sequence>
+         </extension>
+      </complexContent>
+   </complexType>
+   <complexType name="VcIntegrityOption">
+      <complexContent>
+         <extension base="vim25:DynamicData">
+            <sequence>
+               <element name="reason" type="xsd:string" minOccurs="0" />
+               <element name="targetVm" type="xsd:boolean" minOccurs="0" />
+            </sequence>
+         </extension>
+      </complexContent>
+   </complexType>
+   <complexType name="VcIntegrityScanOption">
+      <complexContent>
+         <extension base="integrity:VcIntegrityOption">
+            <sequence>
+            </sequence>
+         </extension>
+      </complexContent>
+   </complexType>
+   <complexType name="VcIntegrityStageOption">
+      <complexContent>
+         <extension base="integrity:VcIntegrityOption">
+            <sequence>
+            </sequence>
+         </extension>
+      </complexContent>
+   </complexType>
+   <complexType name="VcIntegrityRemediateOption">
+      <complexContent>
+         <extension base="integrity:VcIntegrityOption">
+            <sequence>
+               <element name="guestScheduler" type="integrity:GuestRemediationScheduleOption" minOccurs="0" />
+               <element name="guestRollback" type="integrity:GuestRemediationRollbackOption" minOccurs="0" />
+               <element name="hostScheduler" type="integrity:HostRemediationScheduleOption" minOccurs="0" />
+               <element name="hostUpgradeOptions" type="integrity:HostUpgradeOptionManagerOptions" minOccurs="0" maxOccurs="unbounded" />
+               <element name="entityToolsUpgradeOption" type="integrity:EntityToolsUpgradeOption" minOccurs="0" maxOccurs="unbounded" />
+               <element name="toolsUpgradeOnPowerCycle" type="xsd:boolean" minOccurs="0" />
+            </sequence>
+         </extension>
+      </complexContent>
+   </complexType>
+   <complexType name="RecallFixDetail">
+      <complexContent>
+         <extension base="vim25:DynamicData">
+            <sequence>
+               <element name="recallID" type="xsd:int" minOccurs="0" />
+               <element name="recallResolutions" type="xsd:int" minOccurs="0" maxOccurs="unbounded" />
+            </sequence>
+         </extension>
+      </complexContent>
+   </complexType>
+   <complexType name="ArrayOfRecallFixDetail">
+      <sequence>
+         <element name="RecallFixDetail" type="integrity:RecallFixDetail" minOccurs="0" maxOccurs="unbounded" />
+      </sequence>
+   </complexType>
+   <complexType name="PatchRecallDetailInfo">
+      <complexContent>
+         <extension base="vim25:DynamicData">
+            <sequence>
+               <element name="affectedBaselines" type="integrity:BaselineManagerUpdateBaselinesGroup" minOccurs="0" maxOccurs="unbounded" />
+               <element name="affectedHosts" type="vim25:ManagedObjectReference" minOccurs="0" maxOccurs="unbounded" />
+               <element name="recalledIDs" type="xsd:int" minOccurs="0" maxOccurs="unbounded" />
+               <element name="resolutions" type="integrity:RecallFixDetail" minOccurs="0" maxOccurs="unbounded" />
+            </sequence>
+         </extension>
+      </complexContent>
+   </complexType>
+   <complexType name="EntityToolsUpgradeOption">
+      <complexContent>
+         <extension base="vim25:DynamicData">
+            <sequence>
+               <element name="toolsUpgradeOnPowerCycle" type="xsd:boolean" minOccurs="0" />
+               <element name="entity" type="vim25:ManagedObjectReference" />
+            </sequence>
+         </extension>
+      </complexContent>
+   </complexType>
+   <complexType name="ArrayOfEntityToolsUpgradeOption">
+      <sequence>
+         <element name="EntityToolsUpgradeOption" type="integrity:EntityToolsUpgradeOption" minOccurs="0" maxOccurs="unbounded" />
+      </sequence>
+   </complexType>
+   <complexType name="UpdateManagerSearchSpec">
+      <complexContent>
+         <extension base="vim25:DynamicData">
+            <sequence>
+               <element name="searchPhrases" type="xsd:string" minOccurs="0" />
+               <element name="language" type="xsd:string" minOccurs="0" maxOccurs="unbounded" />
+               <element name="updateType" type="xsd:string" minOccurs="0" maxOccurs="unbounded" />
+               <element name="hostUpdateCategory" type="xsd:string" minOccurs="0" maxOccurs="unbounded" />
+               <element name="severity" type="xsd:string" minOccurs="0" maxOccurs="unbounded" />
+               <element name="vendor" type="xsd:string" minOccurs="0" maxOccurs="unbounded" />
+               <element name="product" type="xsd:string" minOccurs="0" maxOccurs="unbounded" />
+               <element name="targetType" type="xsd:string" minOccurs="0" maxOccurs="unbounded" />
+               <element name="startTime" type="xsd:dateTime" minOccurs="0" />
+               <element name="endTime" type="xsd:dateTime" minOccurs="0" />
+               <element name="failOnTooManyUpdates" type="xsd:boolean" />
+            </sequence>
+         </extension>
+      </complexContent>
+   </complexType>
+   <complexType name="UpdateManagerScanType">
+      <complexContent>
+         <extension base="vim25:DynamicData">
+            <sequence>
+               <element name="type" type="xsd:string" />
+               <element name="targetComponent" type="xsd:string" />
+            </sequence>
+         </extension>
+      </complexContent>
+   </complexType>
+   <complexType name="ArrayOfUpdateManagerScanType">
+      <sequence>
+         <element name="UpdateManagerScanType" type="integrity:UpdateManagerScanType" minOccurs="0" maxOccurs="unbounded" />
+      </sequence>
+   </complexType>
+   <complexType name="UpdateManagerScanSpec">
+      <complexContent>
+         <extension base="vim25:DynamicData">
+            <sequence>
+               <element name="scanTypes" type="integrity:UpdateManagerScanType" maxOccurs="unbounded" />
+               <element name="baselinegroup" type="xsd:int" minOccurs="0" />
+               <element name="baselineId" type="xsd:int" minOccurs="0" maxOccurs="unbounded" />
+               <element name="updateId" type="xsd:int" minOccurs="0" maxOccurs="unbounded" />
+               <element name="option" type="integrity:VcIntegrityScanOption" minOccurs="0" />
+            </sequence>
+         </extension>
+      </complexContent>
+   </complexType>
+   <complexType name="UpdateManagerStageSpec">
+      <complexContent>
+         <extension base="vim25:DynamicData">
+            <sequence>
+               <element name="baselineGroupUnit" type="integrity:UpdateManagerBaselineGroupUnit" minOccurs="0" />
+               <element name="baselineId" type="xsd:int" minOccurs="0" maxOccurs="unbounded" />
+               <element name="excludedUpdateId" type="xsd:int" minOccurs="0" maxOccurs="unbounded" />
+               <element name="option" type="integrity:VcIntegrityStageOption" />
+            </sequence>
+         </extension>
+      </complexContent>
+   </complexType>
+   <complexType name="UpdateManagerBaselineGroupUnit">
+      <complexContent>
+         <extension base="vim25:DynamicData">
+            <sequence>
+               <element name="baselinegroup" type="xsd:int" />
+               <element name="baselineSubSet" type="xsd:int" minOccurs="0" maxOccurs="unbounded" />
+            </sequence>
+         </extension>
+      </complexContent>
+   </complexType>
+   <complexType name="UpdateManagerRemediationSpec">
+      <complexContent>
+         <extension base="vim25:DynamicData">
+            <sequence>
+               <element name="baselineGroupUnit" type="integrity:UpdateManagerBaselineGroupUnit" minOccurs="0" />
+               <element name="baselineId" type="xsd:int" minOccurs="0" maxOccurs="unbounded" />
+               <element name="excludedUpdateId" type="xsd:int" minOccurs="0" maxOccurs="unbounded" />
+               <element name="option" type="integrity:VcIntegrityRemediateOption" />
+            </sequence>
+         </extension>
+      </complexContent>
+   </complexType>
+   <complexType name="UpdateManagerPrecheckResult">
+      <complexContent>
+         <extension base="vim25:DynamicData">
+            <sequence>
+               <element name="cluster" type="xsd:string" />
+               <element name="host" type="xsd:string" minOccurs="0" />
+               <element name="vm" type="xsd:string" minOccurs="0" />
+               <element name="problems" type="vim25:LocalizableMessage" maxOccurs="unbounded" />
+               <element name="resolutions" type="vim25:LocalizableMessage" maxOccurs="unbounded" />
+            </sequence>
+         </extension>
+      </complexContent>
+   </complexType>
+   <complexType name="ArrayOfUpdateManagerPrecheckResult">
+      <sequence>
+         <element name="UpdateManagerPrecheckResult" type="integrity:UpdateManagerPrecheckResult" minOccurs="0" maxOccurs="unbounded" />
+      </sequence>
+   </complexType>
+   <complexType name="UpdateManagerPrecheckResults">
+      <complexContent>
+         <extension base="vim25:DynamicData">
+            <sequence>
+               <element name="results" type="integrity:UpdateManagerPrecheckResult" minOccurs="0" maxOccurs="unbounded" />
+            </sequence>
+         </extension>
+      </complexContent>
+   </complexType>
+   <complexType name="UpdateManagerUpdateManagerProductDescription">
+      <complexContent>
+         <extension base="integrity:VumElementDescription">
+            <sequence>
+               <element name="targetType" type="xsd:string" />
+               <element name="vendor" type="xsd:string" />
+            </sequence>
+         </extension>
+      </complexContent>
+   </complexType>
+   <complexType name="ArrayOfUpdateManagerUpdateManagerProductDescription">
+      <sequence>
+         <element name="UpdateManagerUpdateManagerProductDescription" type="integrity:UpdateManagerUpdateManagerProductDescription" minOccurs="0" maxOccurs="unbounded" />
+      </sequence>
+   </complexType>
+   <complexType name="UpgradeBaselineSpec">
+      <complexContent>
+         <extension base="integrity:BaselineSpec">
+            <sequence>
+               <element name="upgradeTo" type="xsd:string" minOccurs="0" />
+               <element name="upgradeToVersion" type="xsd:string" />
+            </sequence>
+         </extension>
+      </complexContent>
+   </complexType>
+   <complexType name="UpgradeBaselineInfo">
+      <complexContent>
+         <extension base="integrity:BaselineInfo">
+            <sequence>
+            </sequence>
+         </extension>
+      </complexContent>
+   </complexType>
+   <complexType name="UpgradeComplianceStatus">
+      <complexContent>
+         <extension base="integrity:BasicComplianceStatus">
+            <sequence>
+               <element name="currentVersion" type="xsd:string" minOccurs="0" />
+            </sequence>
+         </extension>
+      </complexContent>
+   </complexType>
+   <complexType name="ArrayOfUpgradeComplianceStatus">
+      <sequence>
+         <element name="UpgradeComplianceStatus" type="integrity:UpgradeComplianceStatus" minOccurs="0" maxOccurs="unbounded" />
+      </sequence>
+   </complexType>
+   <complexType name="UpgradeComplianceStatusReport">
+      <complexContent>
+         <extension base="vim25:DynamicData">
+            <sequence>
+               <element name="lastScanTime" type="xsd:dateTime" minOccurs="0" />
+               <element name="detailStatuses" type="integrity:UpgradeComplianceStatus" minOccurs="0" maxOccurs="unbounded" />
+            </sequence>
+         </extension>
+      </complexContent>
+   </complexType>
+   <simpleType name="UpgradeProductManagerUpgradeProductType">
+      <restriction base="xsd:string">
+         <enumeration value="Host" />
+         <enumeration value="VirtualAppliance" />
+         <enumeration value="VirtualMachineHardware" />
+         <enumeration value="VirtualMachineTools" />
+      </restriction>
+   </simpleType>
+   <simpleType name="UpgradeProductManagerAcceptanceLevel">
+      <restriction base="xsd:string">
+         <enumeration value="Certified" />
+         <enumeration value="Accepted" />
+         <enumeration value="Partner" />
+         <enumeration value="Community" />
+      </restriction>
+   </simpleType>
+   <complexType name="UpgradeProductManagerSoftwarePackage">
+      <complexContent>
+         <extension base="vim25:DynamicData">
+            <sequence>
+               <element name="name" type="xsd:string" minOccurs="0" />
+               <element name="vendor" type="xsd:string" minOccurs="0" />
+               <element name="version" type="xsd:string" minOccurs="0" />
+               <element name="size" type="xsd:int" minOccurs="0" />
+               <element name="acceptanceLevel" type="xsd:string" minOccurs="0" />
+               <element name="dateOfRelease" type="xsd:dateTime" minOccurs="0" />
+            </sequence>
+         </extension>
+      </complexContent>
+   </complexType>
+   <complexType name="ArrayOfUpgradeProductManagerSoftwarePackage">
+      <sequence>
+         <element name="UpgradeProductManagerSoftwarePackage" type="integrity:UpgradeProductManagerSoftwarePackage" minOccurs="0" maxOccurs="unbounded" />
+      </sequence>
+   </complexType>
+   <complexType name="UpgradeProductManagerUpgradeProduct">
+      <complexContent>
+         <extension base="vim25:DynamicData">
+            <sequence>
+               <element name="type" type="xsd:string" />
+               <element name="key" type="xsd:string" />
+               <element name="name" type="xsd:string" />
+               <element name="vendor" type="xsd:string" minOccurs="0" />
+               <element name="edition" type="xsd:string" minOccurs="0" />
+               <element name="version" type="xsd:string" minOccurs="0" />
+               <element name="locale" type="xsd:string" minOccurs="0" />
+               <element name="build" type="xsd:long" minOccurs="0" />
+               <element name="profileName" type="xsd:string" minOccurs="0" />
+               <element name="dateOfRelease" type="xsd:dateTime" minOccurs="0" />
+               <element name="digest" type="xsd:string" minOccurs="0" />
+               <element name="acceptanceLevel" type="xsd:string" minOccurs="0" />
+               <element name="softwarePackages" type="integrity:UpgradeProductManagerSoftwarePackage" minOccurs="0" maxOccurs="unbounded" />
+               <element name="family" type="xsd:string" minOccurs="0" />
+               <element name="path" type="xsd:string" minOccurs="0" />
+               <element name="upgradeReleaseKey" type="xsd:string" minOccurs="0" />
+            </sequence>
+         </extension>
+      </complexContent>
+   </complexType>
+   <complexType name="ArrayOfUpgradeProductManagerUpgradeProduct">
+      <sequence>
+         <element name="UpgradeProductManagerUpgradeProduct" type="integrity:UpgradeProductManagerUpgradeProduct" minOccurs="0" maxOccurs="unbounded" />
+      </sequence>
+   </complexType>
+   <complexType name="UpgradeReleaseManagerUpgradeRelease">
+      <complexContent>
+         <extension base="vim25:DynamicData">
+            <sequence>
+               <element name="key" type="xsd:string" />
+               <element name="displayName" type="xsd:string" />
+            </sequence>
+         </extension>
+      </complexContent>
+   </complexType>
+   <complexType name="ArrayOfUpgradeReleaseManagerUpgradeRelease">
+      <sequence>
+         <element name="UpgradeReleaseManagerUpgradeRelease" type="integrity:UpgradeReleaseManagerUpgradeRelease" minOccurs="0" maxOccurs="unbounded" />
+      </sequence>
+   </complexType>
+   <complexType name="VUMTaskManagerVUMTaskInfo">
+      <complexContent>
+         <extension base="vim25:DynamicData">
+            <sequence>
+               <element name="vcTask" type="vim25:ManagedObjectReference" />
+               <element name="result" type="xsd:anyType" minOccurs="0" />
+               <element name="error" type="vim25:LocalizedMethodFault" minOccurs="0" />
+            </sequence>
+         </extension>
+      </complexContent>
+   </complexType>
+   <complexType name="VcIntegrityInternetConnectionResult">
+      <complexContent>
+         <extension base="vim25:DynamicData">
+            <sequence>
+               <element name="url" type="xsd:string" />
+               <element name="success" type="xsd:boolean" />
+               <element name="errMessage" type="xsd:string" minOccurs="0" />
+            </sequence>
+         </extension>
+      </complexContent>
+   </complexType>
+   <complexType name="ArrayOfVcIntegrityInternetConnectionResult">
+      <sequence>
+         <element name="VcIntegrityInternetConnectionResult" type="integrity:VcIntegrityInternetConnectionResult" minOccurs="0" maxOccurs="unbounded" />
+      </sequence>
+   </complexType>
+   <complexType name="VcIntegrityContent">
+      <complexContent>
+         <extension base="vim25:DynamicData">
+            <sequence>
+               <element name="propertyCollector" type="vim25:ManagedObjectReference" />
+               <element name="baselineManager" type="vim25:ManagedObjectReference" minOccurs="0" />
+               <element name="complianceStatusManager" type="vim25:ManagedObjectReference" minOccurs="0" />
+               <element name="sessionManager" type="vim25:ManagedObjectReference" minOccurs="0" />
+               <element name="scheduledTaskManager" type="vim25:ManagedObjectReference" minOccurs="0" />
+               <element name="updateManager" type="vim25:ManagedObjectReference" minOccurs="0" />
+               <element name="about" type="vim25:AboutInfo" />
+               <element name="optionManager" type="vim25:ManagedObjectReference" minOccurs="0" />
+               <element name="baselineGroupManager" type="vim25:ManagedObjectReference" minOccurs="0" />
+               <element name="upgradeProductManager" type="vim25:ManagedObjectReference" minOccurs="0" />
+               <element name="upgradeReleaseManager" type="vim25:ManagedObjectReference" minOccurs="0" />
+               <element name="virtApplianceManager" type="vim25:ManagedObjectReference" minOccurs="0" />
+               <element name="fileUploadManager" type="vim25:ManagedObjectReference" minOccurs="0" />
+               <element name="taskManager" type="vim25:ManagedObjectReference" minOccurs="0" />
+               <element name="hostUpgradeOptionManager" type="vim25:ManagedObjectReference" minOccurs="0" />
+               <element name="eulaManager" type="vim25:ManagedObjectReference" minOccurs="0" />
+            </sequence>
+         </extension>
+      </complexContent>
+   </complexType>
+   <complexType name="VirtApplianceInfo">
+      <complexContent>
+         <extension base="vim25:DynamicData">
+            <sequence>
+               <element name="vendorUuid" type="xsd:string" />
+               <element name="productRid" type="xsd:string" />
+               <element name="vendorName" type="xsd:string" />
+               <element name="productName" type="xsd:string" />
+               <element name="version" type="xsd:string" />
+               <element name="versionString" type="xsd:string" />
+               <element name="serialNumber" type="xsd:string" />
+            </sequence>
+         </extension>
+      </complexContent>
+   </complexType>
+   <complexType name="ArrayOfVirtApplianceInfo">
+      <sequence>
+         <element name="VirtApplianceInfo" type="integrity:VirtApplianceInfo" minOccurs="0" maxOccurs="unbounded" />
+      </sequence>
+   </complexType>
+   <complexType name="Vulnerability">
+      <complexContent>
+         <extension base="vim25:DynamicData">
+            <sequence>
+            </sequence>
+         </extension>
+      </complexContent>
+   </complexType>
+   <complexType name="VumElementDescription">
+      <complexContent>
+         <extension base="vim25:DynamicData">
+            <sequence>
+               <element name="label" type="xsd:string" />
+               <element name="summary" type="xsd:string" />
+               <element name="key" type="xsd:string" />
+            </sequence>
+         </extension>
+      </complexContent>
+   </complexType>
+   <complexType name="ArrayOfVumElementDescription">
+      <sequence>
+         <element name="VumElementDescription" type="integrity:VumElementDescription" minOccurs="0" maxOccurs="unbounded" />
+      </sequence>
+   </complexType>
+   <complexType name="BaselinesAttachedToRelease">
+      <complexContent>
+         <extension base="integrity:VcIntegrityFault">
+            <sequence>
+            </sequence>
+         </extension>
+      </complexContent>
+   </complexType>
+   <complexType name="CheckPXEHostFault">
+      <complexContent>
+         <extension base="integrity:VcIntegrityFault">
+            <sequence>
+            </sequence>
+         </extension>
+      </complexContent>
+   </complexType>
+   <complexType name="ClusterConfigRestoreFailure">
+      <complexContent>
+         <extension base="integrity:VcIntegrityFault">
+            <sequence>
+               <element name="cluster" type="xsd:string" />
+            </sequence>
+         </extension>
+      </complexContent>
+   </complexType>
+   <complexType name="ClusterRemediationPrecheckFailure">
+      <complexContent>
+         <extension base="integrity:RemediateFailure">
+            <sequence>
+               <element name="host" type="xsd:string" minOccurs="0" />
+            </sequence>
+         </extension>
+      </complexContent>
+   </complexType>
+   <complexType name="ConfigInfoFault">
+      <complexContent>
+         <extension base="integrity:VcIntegrityFault">
+            <sequence>
+               <element name="vm" type="xsd:string" />
+            </sequence>
+         </extension>
+      </complexContent>
+   </complexType>
+   <complexType name="ConflictedBaselines">
+      <complexContent>
+         <extension base="integrity:VcIntegrityFault">
+            <sequence>
+            </sequence>
+         </extension>
+      </complexContent>
+   </complexType>
+   <complexType name="DVSRemediateFailure">
+      <complexContent>
+         <extension base="integrity:VciDVSFault">
+            <sequence>
+               <element name="reason" type="xsd:string" minOccurs="0" />
+            </sequence>
+         </extension>
+      </complexContent>
+   </complexType>
+   <complexType name="DVSScanFailure">
+      <complexContent>
+         <extension base="integrity:VciDVSFault">
+            <sequence>
+               <element name="reason" type="xsd:string" minOccurs="0" />
+            </sequence>
+         </extension>
+      </complexContent>
+   </complexType>
+   <complexType name="DVSStageFailure">
+      <complexContent>
+         <extension base="integrity:VciDVSFault">
+            <sequence>
+               <element name="reason" type="xsd:string" minOccurs="0" />
+            </sequence>
+         </extension>
+      </complexContent>
+   </complexType>
+   <complexType name="DVSUpdateDownloadFailure">
+      <complexContent>
+         <extension base="integrity:VciDVSFault">
+            <sequence>
+               <element name="site" type="xsd:string" minOccurs="0" />
+               <element name="errorCode" type="xsd:int" minOccurs="0" />
+               <element name="errorDesc" type="xsd:string" minOccurs="0" />
+            </sequence>
+         </extension>
+      </complexContent>
+   </complexType>
+   <complexType name="EnterMaintenanceModeFailure">
+      <complexContent>
+         <extension base="integrity:VcIntegrityFault">
+            <sequence>
+            </sequence>
+         </extension>
+      </complexContent>
+   </complexType>
+   <complexType name="EsxupdateErrorBundleDownloadFault">
+      <complexContent>
+         <extension base="integrity:VcIntegrityFault">
+            <sequence>
+            </sequence>
+         </extension>
+      </complexContent>
+   </complexType>
+   <complexType name="EsxupdateErrorBundleFormatFault">
+      <complexContent>
+         <extension base="integrity:VcIntegrityFault">
+            <sequence>
+            </sequence>
+         </extension>
+      </complexContent>
+   </complexType>
+   <complexType name="EsxupdateErrorConfigFault">
+      <complexContent>
+         <extension base="integrity:VcIntegrityFault">
+            <sequence>
+            </sequence>
+         </extension>
+      </complexContent>
+   </complexType>
+   <complexType name="EsxupdateErrorDatabaseFormatFault">
+      <complexContent>
+         <extension base="integrity:VcIntegrityFault">
+            <sequence>
+            </sequence>
+         </extension>
+      </complexContent>
+   </complexType>
+   <complexType name="EsxupdateErrorDatabaseIOFault">
+      <complexContent>
+         <extension base="integrity:VcIntegrityFault">
+            <sequence>
+            </sequence>
+         </extension>
+      </complexContent>
+   </complexType>
+   <complexType name="EsxupdateErrorDependencyFault">
+      <complexContent>
+         <extension base="integrity:VcIntegrityFault">
+            <sequence>
+            </sequence>
+         </extension>
+      </complexContent>
+   </complexType>
+   <complexType name="EsxupdateErrorFileIOFault">
+      <complexContent>
+         <extension base="integrity:VcIntegrityFault">
+            <sequence>
+            </sequence>
+         </extension>
+      </complexContent>
+   </complexType>
+   <complexType name="EsxupdateErrorInvalidOptionFault">
+      <complexContent>
+         <extension base="integrity:VcIntegrityFault">
+            <sequence>
+            </sequence>
+         </extension>
+      </complexContent>
+   </complexType>
+   <complexType name="EsxupdateErrorLockingFault">
+      <complexContent>
+         <extension base="integrity:VcIntegrityFault">
+            <sequence>
+            </sequence>
+         </extension>
+      </complexContent>
+   </complexType>
+   <complexType name="EsxupdateErrorMaintenanceModeFault">
+      <complexContent>
+         <extension base="integrity:VcIntegrityFault">
+            <sequence>
+            </sequence>
+         </extension>
+      </complexContent>
+   </complexType>
+   <complexType name="EsxupdateErrorMetadataDownloadFault">
+      <complexContent>
+         <extension base="integrity:VcIntegrityFault">
+            <sequence>
+            </sequence>
+         </extension>
+      </complexContent>
+   </complexType>
+   <complexType name="EsxupdateErrorMetadataFormatFault">
+      <complexContent>
+         <extension base="integrity:VcIntegrityFault">
+            <sequence>
+            </sequence>
+         </extension>
+      </complexContent>
+   </complexType>
+   <complexType name="EsxupdateErrorNoMatchFault">
+      <complexContent>
+         <extension base="integrity:VcIntegrityFault">
+            <sequence>
+            </sequence>
+         </extension>
+      </complexContent>
+   </complexType>
+   <complexType name="EsxupdateErrorNotRootErrorFault">
+      <complexContent>
+         <extension base="integrity:VcIntegrityFault">
+            <sequence>
+            </sequence>
+         </extension>
+      </complexContent>
+   </complexType>
+   <complexType name="EsxupdateErrorPackageManagerFault">
+      <complexContent>
+         <extension base="integrity:VcIntegrityFault">
+            <sequence>
+            </sequence>
+         </extension>
+      </complexContent>
+   </complexType>
+   <complexType name="EsxupdateErrorPostScriptFault">
+      <complexContent>
+         <extension base="integrity:VcIntegrityFault">
+            <sequence>
+            </sequence>
+         </extension>
+      </complexContent>
+   </complexType>
+   <complexType name="EsxupdateErrorUnhandledExceptionFault">
+      <complexContent>
+         <extension base="integrity:VcIntegrityFault">
+            <sequence>
+            </sequence>
+         </extension>
+      </complexContent>
+   </complexType>
+   <complexType name="EsxupdateErrorUnsatisfiedDependenciesFault">
+      <complexContent>
+         <extension base="integrity:VcIntegrityFault">
+            <sequence>
+            </sequence>
+         </extension>
+      </complexContent>
+   </complexType>
+   <complexType name="EsxupdateErrorUnsupportedCommandFault">
+      <complexContent>
+         <extension base="integrity:VcIntegrityFault">
+            <sequence>
+            </sequence>
+         </extension>
+      </complexContent>
+   </complexType>
+   <complexType name="EsxupdateErrorVibDownloadFault">
+      <complexContent>
+         <extension base="integrity:VcIntegrityFault">
+            <sequence>
+            </sequence>
+         </extension>
+      </complexContent>
+   </complexType>
+   <complexType name="EsxupdateErrorVibFormatFault">
+      <complexContent>
+         <extension base="integrity:VcIntegrityFault">
+            <sequence>
+            </sequence>
+         </extension>
+      </complexContent>
+   </complexType>
+   <complexType name="EsxupdateErrorVibIOFault">
+      <complexContent>
+         <extension base="integrity:VcIntegrityFault">
+            <sequence>
+            </sequence>
+         </extension>
+      </complexContent>
+   </complexType>
+   <complexType name="EsxupdateErrorVibSigDigestFault">
+      <complexContent>
+         <extension base="integrity:VcIntegrityFault">
+            <sequence>
+            </sequence>
+         </extension>
+      </complexContent>
+   </complexType>
+   <complexType name="EsxupdateErrorVibSigFormatFault">
+      <complexContent>
+         <extension base="integrity:VcIntegrityFault">
+            <sequence>
+            </sequence>
+         </extension>
+      </complexContent>
+   </complexType>
+   <complexType name="EsxupdateErrorVibSigInvalidFault">
+      <complexContent>
+         <extension base="integrity:VcIntegrityFault">
+            <sequence>
+            </sequence>
+         </extension>
+      </complexContent>
+   </complexType>
+   <complexType name="EsxupdateErrorVibSigMissingFault">
+      <complexContent>
+         <extension base="integrity:VcIntegrityFault">
+            <sequence>
+            </sequence>
+         </extension>
+      </complexContent>
+   </complexType>
+   <complexType name="EsxupdateErrorVibSigVersionFault">
+      <complexContent>
+         <extension base="integrity:VcIntegrityFault">
+            <sequence>
+            </sequence>
+         </extension>
+      </complexContent>
+   </complexType>
+   <complexType name="EsxupdateErrorVisorSetupFault">
+      <complexContent>
+         <extension base="integrity:VcIntegrityFault">
+            <sequence>
+            </sequence>
+         </extension>
+      </complexContent>
+   </complexType>
+   <complexType name="FileDownloadFailure">
+      <complexContent>
+         <extension base="integrity:VcIntegrityFault">
+            <sequence>
+               <element name="filePath" type="xsd:string" />
+            </sequence>
+         </extension>
+      </complexContent>
+   </complexType>
+   <complexType name="FileUploadInvalidPackage">
+      <complexContent>
+         <extension base="integrity:VcIntegrityFault">
+            <sequence>
+            </sequence>
+         </extension>
+      </complexContent>
+   </complexType>
+   <complexType name="FileUploadNoSessionMatch">
+      <complexContent>
+         <extension base="integrity:VcIntegrityFault">
+            <sequence>
+            </sequence>
+         </extension>
+      </complexContent>
+   </complexType>
+   <complexType name="FileUploadNotEnoughSpace">
+      <complexContent>
+         <extension base="integrity:VcIntegrityFault">
+            <sequence>
+            </sequence>
+         </extension>
+      </complexContent>
+   </complexType>
+   <complexType name="FileUploadUnsupportedFileLocation">
+      <complexContent>
+         <extension base="integrity:VcIntegrityFault">
+            <sequence>
+            </sequence>
+         </extension>
+      </complexContent>
+   </complexType>
+   <complexType name="FileUploadUnsupportedFileType">
+      <complexContent>
+         <extension base="integrity:VcIntegrityFault">
+            <sequence>
+            </sequence>
+         </extension>
+      </complexContent>
+   </complexType>
+   <complexType name="GAInstallFailure">
+      <complexContent>
+         <extension base="integrity:VcIntegrityFault">
+            <sequence>
+               <element name="entity" type="vim25:ManagedObjectReference" minOccurs="0" />
+            </sequence>
+         </extension>
+      </complexContent>
+   </complexType>
+   <complexType name="GuestInfoFault">
+      <complexContent>
+         <extension base="integrity:VcIntegrityFault">
+            <sequence>
+               <element name="vm" type="xsd:string" />
+            </sequence>
+         </extension>
+      </complexContent>
+   </complexType>
+   <complexType name="HostCommunicationFault">
+      <complexContent>
+         <extension base="integrity:VcIntegrityFault">
+            <sequence>
+               <element name="host" type="vim25:ManagedObjectReference" />
+            </sequence>
+         </extension>
+      </complexContent>
+   </complexType>
+   <complexType name="HostGetInfoFailure">
+      <complexContent>
+         <extension base="integrity:VcIntegrityFault">
+            <sequence>
+            </sequence>
+         </extension>
+      </complexContent>
+   </complexType>
+   <complexType name="HostInMModeFault">
+      <complexContent>
+         <extension base="integrity:RemediateFailure">
+            <sequence>
+            </sequence>
+         </extension>
+      </complexContent>
+   </complexType>
+   <complexType name="HostPatchConflictDependenciesFailure">
+      <complexContent>
+         <extension base="integrity:VcIntegrityFault">
+            <sequence>
+            </sequence>
+         </extension>
+      </complexContent>
+   </complexType>
+   <complexType name="HostPatchConflictPackagesFailure">
+      <complexContent>
+         <extension base="integrity:VcIntegrityFault">
+            <sequence>
+               <element name="reason" type="xsd:string" minOccurs="0" />
+            </sequence>
+         </extension>
+      </complexContent>
+   </complexType>
+   <complexType name="HostPatchConflictPatchesFailure">
+      <complexContent>
+         <extension base="integrity:VcIntegrityFault">
+            <sequence>
+               <element name="reason" type="xsd:string" minOccurs="0" />
+            </sequence>
+         </extension>
+      </complexContent>
+   </complexType>
+   <complexType name="HostPatchConflictVibsFailure">
+      <complexContent>
+         <extension base="integrity:VcIntegrityFault">
+            <sequence>
+               <element name="reason" type="xsd:string" minOccurs="0" />
+            </sequence>
+         </extension>
+      </complexContent>
+   </complexType>
+   <complexType name="HostPatchCycleDetectedFailure">
+      <complexContent>
+         <extension base="integrity:VcIntegrityFault">
+            <sequence>
+               <element name="cycle" type="xsd:string" minOccurs="0" />
+            </sequence>
+         </extension>
+      </complexContent>
+   </complexType>
+   <complexType name="HostPatchDnsResolveFailure">
+      <complexContent>
+         <extension base="integrity:VcIntegrityFault">
+            <sequence>
+               <element name="reason" type="xsd:string" minOccurs="0" />
+            </sequence>
+         </extension>
+      </complexContent>
+   </complexType>
+   <complexType name="HostPatchESXUpdateFailure">
+      <complexContent>
+         <extension base="integrity:VcIntegrityFault">
+            <sequence>
+               <element name="errorCodes" type="xsd:string" minOccurs="0" />
+            </sequence>
+         </extension>
+      </complexContent>
+   </complexType>
+   <complexType name="HostPatchEnterMmodeFailure">
+      <complexContent>
+         <extension base="integrity:RemediateFailure">
+            <sequence>
+            </sequence>
+         </extension>
+      </complexContent>
+   </complexType>
+   <complexType name="HostPatchEsxFileDownloadFailure">
+      <complexContent>
+         <extension base="integrity:VcIntegrityFault">
+            <sequence>
+            </sequence>
+         </extension>
+      </complexContent>
+   </complexType>
+   <complexType name="HostPatchExitMmodeFailure">
+      <complexContent>
+         <extension base="integrity:RemediateFailure">
+            <sequence>
+            </sequence>
+         </extension>
+      </complexContent>
+   </complexType>
+   <complexType name="HostPatchInputRecalledFailure">
+      <complexContent>
+         <extension base="integrity:VcIntegrityFault">
+            <sequence>
+               <element name="reason" type="xsd:string" minOccurs="0" />
+            </sequence>
+         </extension>
+      </complexContent>
+   </complexType>
+   <complexType name="HostPatchInvalidBundle">
+      <complexContent>
+         <extension base="integrity:VcIntegrityFault">
+            <sequence>
+            </sequence>
+         </extension>
+      </complexContent>
+   </complexType>
+   <complexType name="HostPatchInvalidVendorCode">
+      <complexContent>
+         <extension base="integrity:VcIntegrityFault">
+            <sequence>
+               <element name="vendor" type="xsd:string" minOccurs="0" />
+            </sequence>
+         </extension>
+      </complexContent>
+   </complexType>
+   <complexType name="HostPatchMetadataCorruptFailure">
+      <complexContent>
+         <extension base="integrity:VcIntegrityFault">
+            <sequence>
+            </sequence>
+         </extension>
+      </complexContent>
+   </complexType>
+   <complexType name="HostPatchMetadataNotFoundFailure">
+      <complexContent>
+         <extension base="integrity:VcIntegrityFault">
+            <sequence>
+            </sequence>
+         </extension>
+      </complexContent>
+   </complexType>
+   <complexType name="HostPatchNoBootTime">
+      <complexContent>
+         <extension base="integrity:VcIntegrityFault">
+            <sequence>
+               <element name="host" type="xsd:string" minOccurs="0" />
+            </sequence>
+         </extension>
+      </complexContent>
+   </complexType>
+   <complexType name="HostPatchNotConnectedFailure">
+      <complexContent>
+         <extension base="integrity:VcIntegrityFault">
+            <sequence>
+            </sequence>
+         </extension>
+      </complexContent>
+   </complexType>
+   <complexType name="HostPatchNotHostEntityFailure">
+      <complexContent>
+         <extension base="integrity:VcIntegrityFault">
+            <sequence>
+            </sequence>
+         </extension>
+      </complexContent>
+   </complexType>
+   <complexType name="HostPatchNotInstallableFailure">
+      <complexContent>
+         <extension base="integrity:VcIntegrityFault">
+            <sequence>
+               <element name="patches" type="xsd:string" minOccurs="0" />
+            </sequence>
+         </extension>
+      </complexContent>
+   </complexType>
+   <complexType name="HostPatchNotSupportedHostVersionFailure">
+      <complexContent>
+         <extension base="integrity:VcIntegrityFault">
+            <sequence>
+            </sequence>
+         </extension>
+      </complexContent>
+   </complexType>
+   <complexType name="HostPatchNullRefFailure">
+      <complexContent>
+         <extension base="integrity:VcIntegrityFault">
+            <sequence>
+            </sequence>
+         </extension>
+      </complexContent>
+   </complexType>
+   <complexType name="HostPatchOutdatedMetadataImport">
+      <complexContent>
+         <extension base="integrity:VcIntegrityFault">
+            <sequence>
+            </sequence>
+         </extension>
+      </complexContent>
+   </complexType>
+   <complexType name="HostPatchPowerStateFailure">
+      <complexContent>
+         <extension base="integrity:VcIntegrityFault">
+            <sequence>
+            </sequence>
+         </extension>
+      </complexContent>
+   </complexType>
+   <complexType name="HostPatchPrerequisiteRecalledFailure">
+      <complexContent>
+         <extension base="integrity:VcIntegrityFault">
+            <sequence>
+               <element name="reason" type="xsd:string" minOccurs="0" />
+            </sequence>
+         </extension>
+      </complexContent>
+   </complexType>
+   <complexType name="HostPatchPxeRebootSkipFailure">
+      <complexContent>
+         <extension base="integrity:RemediateFailure">
+            <sequence>
+            </sequence>
+         </extension>
+      </complexContent>
+   </complexType>
+   <complexType name="HostPatchRebootFailure">
+      <complexContent>
+         <extension base="integrity:RemediateFailure">
+            <sequence>
+            </sequence>
+         </extension>
+      </complexContent>
+   </complexType>
+   <complexType name="HostPatchRebootReconnectFailure">
+      <complexContent>
+         <extension base="integrity:VcIntegrityFault">
+            <sequence>
+            </sequence>
+         </extension>
+      </complexContent>
+   </complexType>
+   <complexType name="HostPatchReconnectFailure">
+      <complexContent>
+         <extension base="integrity:RemediateFailure">
+            <sequence>
+            </sequence>
+         </extension>
+      </complexContent>
+   </complexType>
+   <complexType name="HostPatchRestoreVmFailure">
+      <complexContent>
+         <extension base="integrity:RemediateFailure">
+            <sequence>
+            </sequence>
+         </extension>
+      </complexContent>
+   </complexType>
+   <complexType name="HostPatchTaskTimedOutFailure">
+      <complexContent>
+         <extension base="integrity:VcIntegrityFault">
+            <sequence>
+            </sequence>
+         </extension>
+      </complexContent>
+   </complexType>
+   <complexType name="HostPatchUpgradeTaskTimedOutFailure">
+      <complexContent>
+         <extension base="integrity:HostPatchTaskTimedOutFailure">
+            <sequence>
+            </sequence>
+         </extension>
+      </complexContent>
+   </complexType>
+   <complexType name="HostPatchVibDownloadFailure">
+      <complexContent>
+         <extension base="integrity:VcIntegrityFault">
+            <sequence>
+            </sequence>
+         </extension>
+      </complexContent>
+   </complexType>
+   <complexType name="HostUpgradeBootTimeUnsetFailure">
+      <complexContent>
+         <extension base="integrity:RemediateFailure">
+            <sequence>
+            </sequence>
+         </extension>
+      </complexContent>
+   </complexType>
+   <complexType name="HostUpgradeChecksumFailure">
+      <complexContent>
+         <extension base="integrity:VcIntegrityFault">
+            <sequence>
+            </sequence>
+         </extension>
+      </complexContent>
+   </complexType>
+   <complexType name="HostUpgradeComponentFailure">
+      <complexContent>
+         <extension base="integrity:RemediateFailure">
+            <sequence>
+            </sequence>
+         </extension>
+      </complexContent>
+   </complexType>
+   <complexType name="HostUpgradeConflict">
+      <complexContent>
+         <extension base="integrity:VcIntegrityFault">
+            <sequence>
+               <element name="host" type="xsd:string" minOccurs="0" />
+               <element name="version" type="xsd:string" minOccurs="0" />
+            </sequence>
+         </extension>
+      </complexContent>
+   </complexType>
+   <complexType name="HostUpgradeConflictPackagesFailure">
+      <complexContent>
+         <extension base="integrity:VcIntegrityFault">
+            <sequence>
+               <element name="reason" type="xsd:string" minOccurs="0" />
+            </sequence>
+         </extension>
+      </complexContent>
+   </complexType>
+   <complexType name="HostUpgradeConflictVibsFailure">
+      <complexContent>
+         <extension base="integrity:VcIntegrityFault">
+            <sequence>
+               <element name="reason" type="xsd:string" minOccurs="0" />
+            </sequence>
+         </extension>
+      </complexContent>
+   </complexType>
+   <complexType name="HostUpgradeCorruptPackage">
+      <complexContent>
+         <extension base="integrity:VcIntegrityFault">
+            <sequence>
+            </sequence>
+         </extension>
+      </complexContent>
+   </complexType>
+   <complexType name="HostUpgradeDeployAgentFailure">
+      <complexContent>
+         <extension base="integrity:RemediateFailure">
+            <sequence>
+            </sequence>
+         </extension>
+      </complexContent>
+   </complexType>
+   <complexType name="HostUpgradeDuplicatePackage">
+      <complexContent>
+         <extension base="integrity:VcIntegrityFault">
+            <sequence>
+            </sequence>
+         </extension>
+      </complexContent>
+   </complexType>
+   <complexType name="HostUpgradeGrubUpdateFailure">
+      <complexContent>
+         <extension base="integrity:RemediateFailure">
+            <sequence>
+            </sequence>
+         </extension>
+      </complexContent>
+   </complexType>
+   <complexType name="HostUpgradeInaccessibleDatastore">
+      <complexContent>
+         <extension base="integrity:RemediateFailure">
+            <sequence>
+            </sequence>
+         </extension>
+      </complexContent>
+   </complexType>
+   <complexType name="HostUpgradeIncompatibleHardware">
+      <complexContent>
+         <extension base="integrity:RemediateFailure">
+            <sequence>
+               <element name="hostName" type="xsd:string" minOccurs="0" />
+            </sequence>
+         </extension>
+      </complexContent>
+   </complexType>
+   <complexType name="HostUpgradeIncompatibleSoftwareConfig">
+      <complexContent>
+         <extension base="integrity:RemediateFailure">
+            <sequence>
+               <element name="hostName" type="xsd:string" minOccurs="0" />
+            </sequence>
+         </extension>
+      </complexContent>
+   </complexType>
+   <complexType name="HostUpgradeIncorrectPackage">
+      <complexContent>
+         <extension base="integrity:VcIntegrityFault">
+            <sequence>
+            </sequence>
+         </extension>
+      </complexContent>
+   </complexType>
+   <complexType name="HostUpgradeInvalidPackage">
+      <complexContent>
+         <extension base="integrity:VcIntegrityFault">
+            <sequence>
+            </sequence>
+         </extension>
+      </complexContent>
+   </complexType>
+   <complexType name="HostUpgradeLicenseFault">
+      <complexContent>
+         <extension base="integrity:VcIntegrityFault">
+            <sequence>
+            </sequence>
+         </extension>
+      </complexContent>
+   </complexType>
+   <complexType name="HostUpgradeMissingPackage">
+      <complexContent>
+         <extension base="integrity:VcIntegrityFault">
+            <sequence>
+               <element name="host" type="xsd:string" minOccurs="0" />
+               <element name="version" type="xsd:string" minOccurs="0" />
+            </sequence>
+         </extension>
+      </complexContent>
+   </complexType>
+   <complexType name="HostUpgradeNfcCopyFailure">
+      <complexContent>
+         <extension base="integrity:VcIntegrityFault">
+            <sequence>
+               <element name="hostName" type="xsd:string" minOccurs="0" />
+            </sequence>
+         </extension>
+      </complexContent>
+   </complexType>
+   <complexType name="HostUpgradeNoRolledBack">
+      <complexContent>
+         <extension base="integrity:RemediateFailure">
+            <sequence>
+            </sequence>
+         </extension>
+      </complexContent>
+   </complexType>
+   <complexType name="HostUpgradeNoSpaceOnDatastore">
+      <complexContent>
+         <extension base="integrity:RemediateFailure">
+            <sequence>
+               <element name="requiredSpace" type="xsd:int" minOccurs="0" />
+            </sequence>
+         </extension>
+      </complexContent>
+   </complexType>
+   <complexType name="HostUpgradeNotEnoughSpace">
+      <complexContent>
+         <extension base="integrity:VcIntegrityFault">
+            <sequence>
+            </sequence>
+         </extension>
+      </complexContent>
+   </complexType>
+   <complexType name="HostUpgradeRebootFailure">
+      <complexContent>
+         <extension base="integrity:RemediateFailure">
+            <sequence>
+            </sequence>
+         </extension>
+      </complexContent>
+   </complexType>
+   <complexType name="HostUpgradeRolledBack">
+      <complexContent>
+         <extension base="integrity:RemediateFailure">
+            <sequence>
+            </sequence>
+         </extension>
+      </complexContent>
+   </complexType>
+   <complexType name="HostUpgradeRunScriptFailure">
+      <complexContent>
+         <extension base="integrity:RemediateFailure">
+            <sequence>
+            </sequence>
+         </extension>
+      </complexContent>
+   </complexType>
+   <complexType name="HostUpgradeStageFailure">
+      <complexContent>
+         <extension base="integrity:RemediateFailure">
+            <sequence>
+            </sequence>
+         </extension>
+      </complexContent>
+   </complexType>
+   <complexType name="HostUpgradeTimeout">
+      <complexContent>
+         <extension base="integrity:RemediateFailure">
+            <sequence>
+            </sequence>
+         </extension>
+      </complexContent>
+   </complexType>
+   <complexType name="HostUpgradeUnableToPersistPackage">
+      <complexContent>
+         <extension base="integrity:VcIntegrityFault">
+            <sequence>
+            </sequence>
+         </extension>
+      </complexContent>
+   </complexType>
+   <complexType name="HostUpgradeUnexpectedHostVersion">
+      <complexContent>
+         <extension base="integrity:RemediateFailure">
+            <sequence>
+            </sequence>
+         </extension>
+      </complexContent>
+   </complexType>
+   <complexType name="HostUpgradeUnsuitableDatastores">
+      <complexContent>
+         <extension base="integrity:RemediateFailure">
+            <sequence>
+            </sequence>
+         </extension>
+      </complexContent>
+   </complexType>
+   <complexType name="HostUpgradeUnsupported">
+      <complexContent>
+         <extension base="integrity:VcIntegrityFault">
+            <sequence>
+               <element name="host" type="xsd:string" minOccurs="0" />
+            </sequence>
+         </extension>
+      </complexContent>
+   </complexType>
+   <complexType name="HostUpgradeUnsupportedDatastore">
+      <complexContent>
+         <extension base="integrity:RemediateFailure">
+            <sequence>
+            </sequence>
+         </extension>
+      </complexContent>
+   </complexType>
+   <complexType name="HostUpgradeUnsupportedRelease">
+      <complexContent>
+         <extension base="integrity:VcIntegrityFault">
+            <sequence>
+            </sequence>
+         </extension>
+      </complexContent>
+   </complexType>
+   <complexType name="IgnoreErrorInChainFault">
+      <complexContent>
+         <extension base="integrity:VcIntegrityFault">
+            <sequence>
+               <element name="errorCode" type="xsd:int" />
+            </sequence>
+         </extension>
+      </complexContent>
+   </complexType>
+   <complexType name="IncompatibleBaselineFault">
+      <complexContent>
+         <extension base="integrity:RemediateFailure">
+            <sequence>
+               <element name="vm" type="xsd:string" />
+            </sequence>
+         </extension>
+      </complexContent>
+   </complexType>
+   <complexType name="IncompatibleTools">
+      <complexContent>
+         <extension base="integrity:VcIntegrityFault">
+            <sequence>
+               <element name="installedVersion" type="xsd:int" minOccurs="0" />
+               <element name="requiredVersion" type="xsd:int" minOccurs="0" />
+            </sequence>
+         </extension>
+      </complexContent>
+   </complexType>
+   <complexType name="IncompatibleUMDSFault">
+      <complexContent>
+         <extension base="integrity:VcIntegrityFault">
+            <sequence>
+               <element name="folder" type="xsd:string" minOccurs="0" />
+            </sequence>
+         </extension>
+      </complexContent>
+   </complexType>
+   <complexType name="IncompatibleVc">
+      <complexContent>
+         <extension base="integrity:VcIntegrityFault">
+            <sequence>
+            </sequence>
+         </extension>
+      </complexContent>
+   </complexType>
+   <complexType name="InvalidHostUpdateLevel">
+      <complexContent>
+         <extension base="integrity:VcIntegrityFault">
+            <sequence>
+               <element name="host" type="xsd:string" minOccurs="0" />
+            </sequence>
+         </extension>
+      </complexContent>
+   </complexType>
+   <complexType name="InvalidObjectName">
+      <complexContent>
+         <extension base="integrity:VcIntegrityFault">
+            <sequence>
+               <element name="name" type="xsd:string" />
+               <element name="entity" type="vim25:ManagedObjectReference" minOccurs="0" />
+            </sequence>
+         </extension>
+      </complexContent>
+   </complexType>
+   <complexType name="VciLicenseExpired">
+      <complexContent>
+         <extension base="vim25:RuntimeFault">
+            <sequence>
+            </sequence>
+         </extension>
+      </complexContent>
+   </complexType>
+   <complexType name="LockFailure">
+      <complexContent>
+         <extension base="integrity:VcIntegrityFault">
+            <sequence>
+            </sequence>
+         </extension>
+      </complexContent>
+   </complexType>
+   <complexType name="MetadataDownloadFailure">
+      <complexContent>
+         <extension base="integrity:VcIntegrityFault">
+            <sequence>
+               <element name="reason" type="xsd:string" minOccurs="0" />
+            </sequence>
+         </extension>
+      </complexContent>
+   </complexType>
+   <complexType name="MmodeDisallowedFault">
+      <complexContent>
+         <extension base="integrity:VcIntegrityFault">
+            <sequence>
+               <element name="host" type="xsd:string" minOccurs="0" />
+            </sequence>
+         </extension>
+      </complexContent>
+   </complexType>
+   <complexType name="MultipleBaselinesAttached">
+      <complexContent>
+         <extension base="integrity:RemediateFailure">
+            <sequence>
+            </sequence>
+         </extension>
+      </complexContent>
+   </complexType>
+   <complexType name="NoEntities">
+      <complexContent>
+         <extension base="integrity:VcIntegrityFault">
+            <sequence>
+            </sequence>
+         </extension>
+      </complexContent>
+   </complexType>
+   <complexType name="NoLicense">
+      <complexContent>
+         <extension base="vim25:RuntimeFault">
+            <sequence>
+            </sequence>
+         </extension>
+      </complexContent>
+   </complexType>
+   <complexType name="NoSignatureSiteConnection">
+      <complexContent>
+         <extension base="integrity:VcIntegrityFault">
+            <sequence>
+               <element name="site" type="xsd:string" minOccurs="0" />
+            </sequence>
+         </extension>
+      </complexContent>
+   </complexType>
+   <complexType name="NoVcConnection">
+      <complexContent>
+         <extension base="vim25:RuntimeFault">
+            <sequence>
+               <element name="vcServer" type="xsd:string" minOccurs="0" />
+            </sequence>
+         </extension>
+      </complexContent>
+   </complexType>
+   <complexType name="NotApplicableEulaState">
+      <complexContent>
+         <extension base="integrity:VcIntegrityFault">
+            <sequence>
+            </sequence>
+         </extension>
+      </complexContent>
+   </complexType>
+   <complexType name="OperationNotAllowed">
+      <complexContent>
+         <extension base="integrity:VcIntegrityFault">
+            <sequence>
+               <element name="errorDesc" type="xsd:string" minOccurs="0" />
+            </sequence>
+         </extension>
+      </complexContent>
+   </complexType>
+   <complexType name="PowerStateRestoreFault">
+      <complexContent>
+         <extension base="integrity:VcIntegrityFault">
+            <sequence>
+               <element name="vm" type="xsd:string" />
+            </sequence>
+         </extension>
+      </complexContent>
+   </complexType>
+   <complexType name="ReadOnlyObject">
+      <complexContent>
+         <extension base="integrity:VcIntegrityFault">
+            <sequence>
+               <element name="obj" type="xsd:string" minOccurs="0" />
+            </sequence>
+         </extension>
+      </complexContent>
+   </complexType>
+   <complexType name="RemediateFailure">
+      <complexContent>
+         <extension base="integrity:VcIntegrityFault">
+            <sequence>
+               <element name="reason" type="xsd:string" minOccurs="0" />
+            </sequence>
+         </extension>
+      </complexContent>
+   </complexType>
+   <complexType name="RemovableDevicesAttachedFailure">
+      <complexContent>
+         <extension base="integrity:VcIntegrityFault">
+            <sequence>
+               <element name="vms" type="xsd:string" minOccurs="0" />
+            </sequence>
+         </extension>
+      </complexContent>
+   </complexType>
+   <complexType name="ScanFailure">
+      <complexContent>
+         <extension base="integrity:VcIntegrityFault">
+            <sequence>
+               <element name="reason" type="xsd:string" minOccurs="0" />
+            </sequence>
+         </extension>
+      </complexContent>
+   </complexType>
+   <complexType name="SigUpdateNoDiskSpace">
+      <complexContent>
+         <extension base="integrity:VcIntegrityFault">
+            <sequence>
+            </sequence>
+         </extension>
+      </complexContent>
+   </complexType>
+   <complexType name="SpecialVmOnHost">
+      <complexContent>
+         <extension base="integrity:IgnoreErrorInChainFault">
+            <sequence>
+               <element name="vm" type="xsd:string" minOccurs="0" />
+               <element name="host" type="xsd:string" minOccurs="0" />
+            </sequence>
+         </extension>
+      </complexContent>
+   </complexType>
+   <complexType name="StageFailure">
+      <complexContent>
+         <extension base="integrity:VcIntegrityFault">
+            <sequence>
+               <element name="reason" type="xsd:string" minOccurs="0" />
+            </sequence>
+         </extension>
+      </complexContent>
+   </complexType>
+   <complexType name="StaleScheduledTaskFault">
+      <complexContent>
+         <extension base="integrity:VcIntegrityFault">
+            <sequence>
+            </sequence>
+         </extension>
+      </complexContent>
+   </complexType>
+   <complexType name="SysprepAccessFailure">
+      <complexContent>
+         <extension base="integrity:VcIntegrityFault">
+            <sequence>
+               <element name="vm" type="xsd:string" />
+            </sequence>
+         </extension>
+      </complexContent>
+   </complexType>
+   <complexType name="TooManyBaselinegroups">
+      <complexContent>
+         <extension base="integrity:VcIntegrityFault">
+            <sequence>
+            </sequence>
+         </extension>
+      </complexContent>
+   </complexType>
+   <complexType name="TooManyBaselines">
+      <complexContent>
+         <extension base="integrity:VcIntegrityFault">
+            <sequence>
+            </sequence>
+         </extension>
+      </complexContent>
+   </complexType>
+   <complexType name="TooManyUpdatesFault">
+      <complexContent>
+         <extension base="integrity:VcIntegrityFault">
+            <sequence>
+               <element name="TotalUpdateCount" type="xsd:int" />
+            </sequence>
+         </extension>
+      </complexContent>
+   </complexType>
+   <complexType name="ToolsAutoUpgradeUnsupported">
+      <complexContent>
+         <extension base="integrity:VcIntegrityFault">
+            <sequence>
+            </sequence>
+         </extension>
+      </complexContent>
+   </complexType>
+   <complexType name="ToolsNotRunning">
+      <complexContent>
+         <extension base="integrity:VcIntegrityFault">
+            <sequence>
+            </sequence>
+         </extension>
+      </complexContent>
+   </complexType>
+   <complexType name="UnsupportedHostRemediateSpecialVM">
+      <complexContent>
+         <extension base="integrity:VcIntegrityFault">
+            <sequence>
+               <element name="entity" type="vim25:ManagedObjectReference" minOccurs="0" />
+               <element name="vm" type="vim25:ManagedObjectReference" minOccurs="0" />
+            </sequence>
+         </extension>
+      </complexContent>
+   </complexType>
+   <complexType name="UnsupportedPXEHost">
+      <complexContent>
+         <extension base="integrity:VcIntegrityFault">
+            <sequence>
+            </sequence>
+         </extension>
+      </complexContent>
+   </complexType>
+   <complexType name="UnsupportedSpecialVM">
+      <complexContent>
+         <extension base="integrity:VcIntegrityFault">
+            <sequence>
+               <element name="entity" type="vim25:ManagedObjectReference" minOccurs="0" />
+            </sequence>
+         </extension>
+      </complexContent>
+   </complexType>
+   <complexType name="VAAutoUpdateTimedoutFailure">
+      <complexContent>
+         <extension base="integrity:VcIntegrityFault">
+            <sequence>
+            </sequence>
+         </extension>
+      </complexContent>
+   </complexType>
+   <complexType name="VAPostInstallScriptError">
+      <complexContent>
+         <extension base="integrity:RemediateFailure">
+            <sequence>
+               <element name="errorCode" type="xsd:int" />
+            </sequence>
+         </extension>
+      </complexContent>
+   </complexType>
+   <complexType name="VAPostInstallScriptTimedoutError">
+      <complexContent>
+         <extension base="integrity:VcIntegrityFault">
+            <sequence>
+            </sequence>
+         </extension>
+      </complexContent>
+   </complexType>
+   <complexType name="VAPostInstallVixError">
+      <complexContent>
+         <extension base="integrity:RemediateFailure">
+            <sequence>
+            </sequence>
+         </extension>
+      </complexContent>
+   </complexType>
+   <complexType name="VAPreInstallScriptError">
+      <complexContent>
+         <extension base="integrity:RemediateFailure">
+            <sequence>
+               <element name="errorCode" type="xsd:int" />
+            </sequence>
+         </extension>
+      </complexContent>
+   </complexType>
+   <complexType name="VAPreInstallScriptTimedoutError">
+      <complexContent>
+         <extension base="integrity:VcIntegrityFault">
+            <sequence>
+            </sequence>
+         </extension>
+      </complexContent>
+   </complexType>
+   <complexType name="VAPreInstallVixError">
+      <complexContent>
+         <extension base="integrity:RemediateFailure">
+            <sequence>
+            </sequence>
+         </extension>
+      </complexContent>
+   </complexType>
+   <complexType name="VARemediateEulaNotAcceptedFault">
+      <complexContent>
+         <extension base="integrity:RemediateFailure">
+            <sequence>
+               <element name="vendor" type="xsd:string" />
+               <element name="product" type="xsd:string" />
+               <element name="targetVersion" type="xsd:string" />
+            </sequence>
+         </extension>
+      </complexContent>
+   </complexType>
+   <complexType name="VARemediateSnapshotError">
+      <complexContent>
+         <extension base="integrity:RemediateFailure">
+            <sequence>
+            </sequence>
+         </extension>
+      </complexContent>
+   </complexType>
+   <complexType name="VARemediateUnsupportedUpgrade">
+      <complexContent>
+         <extension base="integrity:RemediateFailure">
+            <sequence>
+            </sequence>
+         </extension>
+      </complexContent>
+   </complexType>
+   <complexType name="VCVARemediationFault">
+      <complexContent>
+         <extension base="integrity:RemediateFailure">
+            <sequence>
+            </sequence>
+         </extension>
+      </complexContent>
+   </complexType>
+   <complexType name="VMHWUpgradeToolsNotInstalled">
+      <complexContent>
+         <extension base="integrity:RemediateFailure">
+            <sequence>
+            </sequence>
+         </extension>
+      </complexContent>
+   </complexType>
+   <complexType name="VMHWUpgradeToolsNotLatest">
+      <complexContent>
+         <extension base="integrity:RemediateFailure">
+            <sequence>
+            </sequence>
+         </extension>
+      </complexContent>
+   </complexType>
+   <complexType name="VMHWUpgradeToolsUnknown">
+      <complexContent>
+         <extension base="integrity:RemediateFailure">
+            <sequence>
+            </sequence>
+         </extension>
+      </complexContent>
+   </complexType>
+   <complexType name="VMHWUpgradeToolsUnmanaged">
+      <complexContent>
+         <extension base="integrity:RemediateFailure">
+            <sequence>
+            </sequence>
+         </extension>
+      </complexContent>
+   </complexType>
+   <complexType name="VMHardwareRemediationFault">
+      <complexContent>
+         <extension base="integrity:RemediateFailure">
+            <sequence>
+               <element name="vm" type="xsd:string" />
+            </sequence>
+         </extension>
+      </complexContent>
+   </complexType>
+   <complexType name="VMHardwareScanFault">
+      <complexContent>
+         <extension base="integrity:ScanFailure">
+            <sequence>
+               <element name="vm" type="xsd:string" />
+            </sequence>
+         </extension>
+      </complexContent>
+   </complexType>
+   <complexType name="VMToolsNotInstalledOrUnmanagedFault">
+      <complexContent>
+         <extension base="integrity:VMToolsRemediationFault">
+            <sequence>
+            </sequence>
+         </extension>
+      </complexContent>
+   </complexType>
+   <complexType name="VMToolsRemediationFault">
+      <complexContent>
+         <extension base="integrity:RemediateFailure">
+            <sequence>
+               <element name="vm" type="xsd:string" />
+            </sequence>
+         </extension>
+      </complexContent>
+   </complexType>
+   <complexType name="VMToolsRemediationSetPolicyFault">
+      <complexContent>
+         <extension base="integrity:VcIntegrityFault">
+            <sequence>
+               <element name="vm" type="xsd:string" />
+            </sequence>
+         </extension>
+      </complexContent>
+   </complexType>
+   <complexType name="VMToolsScanFault">
+      <complexContent>
+         <extension base="integrity:ScanFailure">
+            <sequence>
+               <element name="vm" type="xsd:string" />
+            </sequence>
+         </extension>
+      </complexContent>
+   </complexType>
+   <complexType name="VMToolsUpgradedButRebootNotInitiated">
+      <complexContent>
+         <extension base="integrity:VMToolsRemediationFault">
+            <sequence>
+            </sequence>
+         </extension>
+      </complexContent>
+   </complexType>
+   <complexType name="VcIntegrityFault">
+      <complexContent>
+         <extension base="vim25:MethodFault">
+            <sequence>
+            </sequence>
+         </extension>
+      </complexContent>
+   </complexType>
+   <complexType name="VciDVSFault">
+      <complexContent>
+         <extension base="integrity:VcIntegrityFault">
+            <sequence>
+            </sequence>
+         </extension>
+      </complexContent>
+   </complexType>
+   <complexType name="VmFtDisabledFault">
+      <complexContent>
+         <extension base="integrity:VcIntegrityFault">
+            <sequence>
+               <element name="vm" type="xsd:string" />
+               <element name="host" type="xsd:string" />
+            </sequence>
+         </extension>
+      </complexContent>
+   </complexType>
+   <complexType name="VmFtEnabledFault">
+      <complexContent>
+         <extension base="integrity:VcIntegrityFault">
+            <sequence>
+               <element name="vm" type="xsd:string" />
+               <element name="host" type="xsd:string" />
+            </sequence>
+         </extension>
+      </complexContent>
+   </complexType>
+   <complexType name="VmMigrationFault">
+      <complexContent>
+         <extension base="integrity:VcIntegrityFault">
+            <sequence>
+               <element name="vm" type="xsd:string" />
+               <element name="sourceHost" type="xsd:string" />
+               <element name="destinationHost" type="xsd:string" />
+            </sequence>
+         </extension>
+      </complexContent>
+   </complexType>
+   <complexType name="VmPowerOrDevicesRestoreFailure">
+      <complexContent>
+         <extension base="integrity:VcIntegrityFault">
+            <sequence>
+               <element name="cluster" type="xsd:string" />
+            </sequence>
+         </extension>
+      </complexContent>
+   </complexType>
+   <complexType name="VmotionCompatibilityQueryFault">
+      <complexContent>
+         <extension base="integrity:VcIntegrityFault">
+            <sequence>
+               <element name="vm" type="xsd:string" />
+               <element name="destinationHost" type="xsd:string" />
+            </sequence>
+         </extension>
+      </complexContent>
+   </complexType>
+   <simpleType name="IntegrityArrayUpdateOperation">
+      <restriction base="xsd:string">
+         <enumeration value="add" />
+         <enumeration value="remove" />
+         <enumeration value="edit" />
+      </restriction>
+   </simpleType>
+   <complexType name="IntegrityArrayUpdateSpec">
+      <complexContent>
+         <extension base="vim25:DynamicData">
+            <sequence>
+               <element name="operation" type="integrity:IntegrityArrayUpdateOperation" />
+               <element name="removeKey" type="xsd:anyType" minOccurs="0" />
+            </sequence>
+         </extension>
+      </complexContent>
+   </complexType>
+   <complexType name="IntegrityBoolOption">
+      <complexContent>
+         <extension base="integrity:IntegrityOptionType">
+            <sequence>
+               <element name="supported" type="xsd:boolean" />
+               <element name="defaultValue" type="xsd:boolean" />
+            </sequence>
+         </extension>
+      </complexContent>
+   </complexType>
+   <complexType name="IntegrityChoiceOption">
+      <complexContent>
+         <extension base="integrity:IntegrityOptionType">
+            <sequence>
+               <element name="choiceInfo" type="integrity:VumElementDescription" maxOccurs="unbounded" />
+               <element name="defaultIndex" type="xsd:int" minOccurs="0" />
+            </sequence>
+         </extension>
+      </complexContent>
+   </complexType>
+   <complexType name="IntegrityFloatOption">
+      <complexContent>
+         <extension base="integrity:IntegrityOptionType">
+            <sequence>
+               <element name="min" type="xsd:float" />
+               <element name="max" type="xsd:float" />
+               <element name="defaultValue" type="xsd:float" />
+            </sequence>
+         </extension>
+      </complexContent>
+   </complexType>
+   <complexType name="IntegrityIntOption">
+      <complexContent>
+         <extension base="integrity:IntegrityOptionType">
+            <sequence>
+               <element name="min" type="xsd:int" />
+               <element name="max" type="xsd:int" />
+               <element name="defaultValue" type="xsd:int" />
+            </sequence>
+         </extension>
+      </complexContent>
+   </complexType>
+   <complexType name="IntegrityLongOption">
+      <complexContent>
+         <extension base="integrity:IntegrityOptionType">
+            <sequence>
+               <element name="min" type="xsd:long" />
+               <element name="max" type="xsd:long" />
+               <element name="defaultValue" type="xsd:long" />
+            </sequence>
+         </extension>
+      </complexContent>
+   </complexType>
+   <complexType name="IntegrityOptionDef">
+      <complexContent>
+         <extension base="vim25:DynamicData">
+            <sequence>
+               <element name="key" type="xsd:string" />
+               <element name="optionType" type="integrity:IntegrityOptionType" />
+            </sequence>
+         </extension>
+      </complexContent>
+   </complexType>
+   <complexType name="ArrayOfIntegrityOptionDef">
+      <sequence>
+         <element name="IntegrityOptionDef" type="integrity:IntegrityOptionDef" minOccurs="0" maxOccurs="unbounded" />
+      </sequence>
+   </complexType>
+   <complexType name="IntegrityOptionType">
+      <complexContent>
+         <extension base="vim25:DynamicData">
+            <sequence>
+               <element name="valueIsReadonly" type="xsd:boolean" minOccurs="0" />
+            </sequence>
+         </extension>
+      </complexContent>
+   </complexType>
+   <complexType name="IntegrityOptionValue">
+      <complexContent>
+         <extension base="vim25:DynamicData">
+            <sequence>
+               <element name="key" type="xsd:string" />
+               <element name="value" type="xsd:anyType" minOccurs="0" />
+            </sequence>
+         </extension>
+      </complexContent>
+   </complexType>
+   <complexType name="ArrayOfIntegrityOptionValue">
+      <sequence>
+         <element name="IntegrityOptionValue" type="integrity:IntegrityOptionValue" minOccurs="0" maxOccurs="unbounded" />
+      </sequence>
+   </complexType>
+   <complexType name="IntegrityStringOption">
+      <complexContent>
+         <extension base="integrity:IntegrityOptionType">
+            <sequence>
+               <element name="defaultValue" type="xsd:string" />
+               <element name="validCharacters" type="xsd:string" minOccurs="0" />
+            </sequence>
+         </extension>
+      </complexContent>
+   </complexType>
+   <complexType name="VaProductId">
+      <complexContent>
+         <extension base="vim25:DynamicData">
+            <sequence>
+               <element name="vendorUuid" type="xsd:string" />
+               <element name="productRid" type="xsd:string" />
+            </sequence>
+         </extension>
+      </complexContent>
+   </complexType>
+   <simpleType name="VaUpgradeBaselineSelectorUpgradeAction">
+      <restriction base="xsd:string">
+         <enumeration value="DontUpgrade" />
+         <enumeration value="Latest" />
+         <enumeration value="LatestModerate" />
+         <enumeration value="LatestImportant" />
+         <enumeration value="LatestCritical" />
+         <enumeration value="SpecificVersion" />
+      </restriction>
+   </simpleType>
+   <complexType name="VaUpgradeBaselineSelector">
+      <complexContent>
+         <extension base="vim25:DynamicData">
+            <sequence>
+               <element name="productId" type="integrity:VaProductId" />
+               <element name="action" type="xsd:string" />
+               <element name="vendorName" type="xsd:string" minOccurs="0" />
+               <element name="productName" type="xsd:string" minOccurs="0" />
+               <element name="version" type="xsd:string" minOccurs="0" />
+               <element name="typeConstraints" type="xsd:string" minOccurs="0" maxOccurs="unbounded" />
+            </sequence>
+         </extension>
+      </complexContent>
+   </complexType>
+   <complexType name="ArrayOfVaUpgradeBaselineSelector">
+      <sequence>
+         <element name="VaUpgradeBaselineSelector" type="integrity:VaUpgradeBaselineSelector" minOccurs="0" maxOccurs="unbounded" />
+      </sequence>
+   </complexType>
+   <complexType name="VaUpgradeBaselineSpec">
+      <complexContent>
+         <extension base="integrity:BaselineSpec">
+            <sequence>
+               <element name="selectors" type="integrity:VaUpgradeBaselineSelector" maxOccurs="unbounded" />
+            </sequence>
+         </extension>
+      </complexContent>
+   </complexType>
+   <complexType name="VaUpgradeBaselineInfo">
+      <complexContent>
+         <extension base="integrity:BaselineInfo">
+            <sequence>
+            </sequence>
+         </extension>
+      </complexContent>
+   </complexType>
+   <complexType name="VaUpgradeProduct">
+      <complexContent>
+         <extension base="integrity:UpgradeProductManagerUpgradeProduct">
+            <sequence>
+               <element name="productId" type="integrity:VaProductId" />
+               <element name="updates" type="integrity:SoftwareUpdate" minOccurs="0" maxOccurs="unbounded" />
+               <element name="severity" type="xsd:string" minOccurs="0" />
+               <element name="containsNewSecurityUpdate" type="xsd:boolean" minOccurs="0" />
+               <element name="releaseDate" type="xsd:dateTime" minOccurs="0" />
+            </sequence>
+         </extension>
+      </complexContent>
+   </complexType>
+   <simpleType name="VaVAChangelogCategoryType">
+      <restriction base="xsd:string">
+         <enumeration value="Feature" />
+         <enumeration value="Security" />
+         <enumeration value="Fix" />
+      </restriction>
+   </simpleType>
+   <simpleType name="VaVAChangelogSeverityType">
+      <restriction base="xsd:string">
+         <enumeration value="Low" />
+         <enumeration value="Moderate" />
+         <enumeration value="Important" />
+         <enumeration value="Critical" />
+      </restriction>
+   </simpleType>
+   <complexType name="VaVAChangelog">
+      <complexContent>
+         <extension base="vim25:DynamicData">
+            <sequence>
+               <element name="description" type="xsd:string" />
+               <element name="category" type="xsd:string" />
+               <element name="severity" type="xsd:string" />
+               <element name="introducedVersion" type="xsd:string" minOccurs="0" />
+               <element name="referenceType" type="xsd:string" />
+               <element name="referenceId" type="xsd:string" />
+               <element name="referenceUrl" type="xsd:string" minOccurs="0" />
+               <element name="affectedVersions" type="xsd:string" minOccurs="0" />
+            </sequence>
+         </extension>
+      </complexContent>
+   </complexType>
+   <complexType name="ArrayOfVaVAChangelog">
+      <sequence>
+         <element name="VaVAChangelog" type="integrity:VaVAChangelog" minOccurs="0" maxOccurs="unbounded" />
+      </sequence>
+   </complexType>
+   <complexType name="VaVAUpgradeInfo">
+      <complexContent>
+         <extension base="vim25:DynamicData">
+            <sequence>
+               <element name="key" type="xsd:int" />
+               <element name="productId" type="integrity:VaProductId" />
+               <element name="vendorName" type="xsd:string" />
+               <element name="productName" type="xsd:string" />
+               <element name="version" type="xsd:string" />
+               <element name="versionString" type="xsd:string" />
+               <element name="releaseDate" type="xsd:dateTime" />
+               <element name="summary" type="xsd:string" />
+               <element name="contact" type="xsd:string" minOccurs="0" />
+               <element name="changeLog" type="integrity:VaVAChangelog" minOccurs="0" maxOccurs="unbounded" />
+               <element name="eulaStatus" type="integrity:EulaManagerEulaStatus" />
+            </sequence>
+         </extension>
+      </complexContent>
+   </complexType>
+   <complexType name="ArrayOfVaVAUpgradeInfo">
+      <sequence>
+         <element name="VaVAUpgradeInfo" type="integrity:VaVAUpgradeInfo" minOccurs="0" maxOccurs="unbounded" />
+      </sequence>
+   </complexType>
+</schema>
