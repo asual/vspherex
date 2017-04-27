@@ -32,7 +32,7 @@ const opts = stdio.getopt({
   },
   guest: {
     args: 3,
-    description: "Guest details in <hostname> <username> <password> format",
+    description: "Guest details in <vm_name> <username> <password> format",
     key: "g",
     mandatory: true
   },
@@ -96,9 +96,9 @@ const opts = stdio.getopt({
       "processManager");
   const pid = await vimPort.startProgramInGuest(processManager, ref,
       auth, programSpec);
-  const infos = await vimPort.listProcessesInGuest(processManager, ref,
+  const processes = await vimPort.listProcessesInGuest(processManager, ref,
       auth, [pid]);
+  console.log(util.format("Started %j", processes[0]));
   await vimPort.logout(sessionManager);
-  console.log(util.format("Started %j", infos[0]));
 
 })(opts);
