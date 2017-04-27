@@ -73,7 +73,7 @@ import * as vspherex from "vspherex";
   }
   await vimPort.logout(sessionManager);
 
-})("vsphere.local", "user", "pass");
+})("vsphere.local", "username", "password");
 ```
 
 ## Samples
@@ -84,10 +84,18 @@ required build and invocation steps:
 
 `npm run script -- <sample> [<args>]`
 
-An example of the above looks like the following:
+An example of the above may look like one of the following:
 
-`npm run script -- samples/createVirtualMachine.js -h 'vsphere.local' -u 'user' 
--p 'pass' -i -s 'Datacenter' 'datastore1' 'test' 1 64`
+* `npm run script -- samples/complianceStatus.js -h 'vsphere.local'
+-u 'username' -p 'password'`
+* `npm run script -- samples/createVirtualMachine.js -h 'vsphere.local'
+-u 'username' -p 'password' -s 'Datacenter' 'datastore1' 'test' 1 64`
+* `npm run script -- samples/performanceCounters.js -h 'vsphere.local'
+-u 'username' -p 'password' -c 'esxi.local' 'cpu.used.summation'`
+* `npm run script -- samples/startProgramInGuest.js -h 'vsphere.local'
+-u 'username' -p 'password' -g 'ubuntu-server' 'ubuntu' 'password'`
+
+All samples can be executed with optional `--debug` and `--insecure` flags.
 
 ## License
 
