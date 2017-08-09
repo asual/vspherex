@@ -58,7 +58,7 @@ const opts = stdio.getopt({
 (async ({debug, hostname, insecure, password, username}) => {
 
   if (insecure) {
-    process.env.NODE_TLS_REJECT_UNAUTHORIZED = 0;
+    process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
   }
 
   let integrityOptions = {

@@ -63,7 +63,7 @@ const opts = stdio.getopt({
 (async ({debug, guest, hostname, insecure, password, username}) => {
 
   if (insecure) {
-    process.env.NODE_TLS_REJECT_UNAUTHORIZED = 0;
+    process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
   }
 
   const vimService = await vsphere.vimService(hostname, {
