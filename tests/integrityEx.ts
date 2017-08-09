@@ -39,9 +39,9 @@ tap.test("integrityEx", async () => {
       path.join(__dirname, "integrityEx/retrieveVcIntegrityContent.xml"));
 
   const integrityService = await vsphere.integrityService(hostname, {
-    definitions: ["/integrityService.wsdl"]
+    definitions: ["/integrityService.wsdl"],
   });
-  const integrityEx = vspherex.integrityEx(integrityService);
+  vspherex.integrityEx(integrityService);
 
   nock.cleanAll();
 });

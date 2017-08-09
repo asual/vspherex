@@ -16,10 +16,10 @@
   "homepage": "https://github.com/asual/vspherex#readme",
   "keywords": [
     "esxi",
-    "vcenter",
-    "vsphere",
+    "javascript",
     "sdk",
-    "javascript"
+    "vcenter",
+    "vsphere"
   ],
   "license": "MIT",
   "main": "dist/vspherex.js",
@@ -34,6 +34,7 @@
   "scripts": {
     "clear": "rm -rf **/*.js",
     "build": "tsc -d -lib dom,es2017 dist/vspherex.ts && tsc -lib dom,es2017",
+    "lint": "tslint -e **/*.d.ts --project tsconfig.json --type-check **/*.ts",
     "script": "npm run build && node",
     "test": "npm run build && tap tests"
   },

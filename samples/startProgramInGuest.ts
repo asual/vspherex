@@ -28,36 +28,36 @@ import * as vspherex from "../../vspherex";
 const opts = stdio.getopt({
   debug: {
     description: "Print debug details",
-    key: "d"
+    key: "d",
   },
   guest: {
     args: 3,
     description: "Guest details in <vm_name> <username> <password> format",
     key: "g",
-    mandatory: true
+    mandatory: true,
   },
   hostname: {
     args: 1,
     description: "vSphere hostname",
     key: "h",
-    mandatory: true
+    mandatory: true,
   },
   insecure: {
     description: "Allow untrusted connections",
-    key: "i"
+    key: "i",
   },
   password: {
     args: 1,
     description: "vSphere password",
     key: "p",
-    mandatory: true
+    mandatory: true,
   },
   username: {
     args: 1,
     description: "vSphere username",
     key: "u",
-    mandatory: true
-  }
+    mandatory: true,
+  },
 });
 
 (async ({debug, guest, hostname, insecure, password, username}) => {
@@ -67,17 +67,17 @@ const opts = stdio.getopt({
   }
 
   const vimService = await vsphere.vimService(hostname, {
-    debug
+    debug,
   });
   const vimEx = vspherex.vimEx(vimService);
   const {
     serviceContent: {
       guestOperationsManager,
       rootFolder,
-      sessionManager
+      sessionManager,
     },
     vim,
-    vimPort
+    vimPort,
   } = vimService;
   await vimPort.login(sessionManager, username, password, null);
   const entities = await vimEx.retrieveEntities(rootFolder,
@@ -86,11 +86,11 @@ const opts = stdio.getopt({
   const auth = vim.NamePasswordAuthentication({
     interactiveSession: false,
     password: guest[2],
-    username: guest[1]
+    username: guest[1],
   });
   const programSpec = vim.GuestProgramSpec({
     arguments: "",
-    programPath: "/bin/pwd"
+    programPath: "/bin/pwd",
   });
   const processManager = await vimEx.retrieveProperty(guestOperationsManager,
       "processManager");

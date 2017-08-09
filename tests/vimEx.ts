@@ -42,7 +42,7 @@ tap.test("vimEx", async () => {
   const vimEx = vspherex.vimEx(vimService);
   const {
     serviceContent,
-    vim
+    vim,
   } = vimService;
 
   nock(url).post("/sdk").replyWithFile(200,

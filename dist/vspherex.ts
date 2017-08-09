@@ -163,7 +163,7 @@ const entity = {
   VirtualMachineSnapshot: "VirtualMachineSnapshot",
   VirtualizationManager: "VirtualizationManager",
   VmwareDistributedVirtualSwitch: "VmwareDistributedVirtualSwitch",
-  VsanUpgradeSystem: "VsanUpgradeSystem"
+  VsanUpgradeSystem: "VsanUpgradeSystem",
 };
 
 const createTraversalSpec = (vim, name, path, type, ...names) => {
@@ -171,9 +171,9 @@ const createTraversalSpec = (vim, name, path, type, ...names) => {
     name,
     path,
     selectSet: names.map((item) => vim.SelectionSpec({
-      name: item
+      name: item,
     })),
-    type
+    type,
   });
 };
 
@@ -199,7 +199,7 @@ const createSelectSet = (vim) => {
         entity.ComputeResource, "rpToRp", "rpToVm"),
     createTraversalSpec(vim, "hToVm", "vm", entity.HostSystem,
         "visitFolders"),
-    createTraversalSpec(vim, "rpToVm", "vm", entity.ResourcePool)
+    createTraversalSpec(vim, "rpToVm", "vm", entity.ResourcePool),
   ];
 };
 
@@ -223,7 +223,7 @@ const createProps = (propSet) => {
     } else {
       obj[name] = {
         ...obj[name],
-        ...current.val
+        ...current.val,
       };
     }
     return previous;
@@ -237,19 +237,19 @@ const retrieveEntities = async (vim, vimPort, propertyCollector, ref, type,
       objectSet: [
         vim.ObjectSpec({
           obj: ref,
-          selectSet: createSelectSet(vim)
-        })
+          selectSet: createSelectSet(vim),
+        }),
       ],
       propSet: [
         vim.PropertySpec({
           all: props.length === 0,
           pathSet: props,
-          type
-        })
-      ]
-    })
+          type,
+        }),
+      ],
+    }),
   ], vim.RetrieveOptions({
-    maxObjects: limit
+    maxObjects: limit,
   }));
   let objects = result.objects;
   while (result.token !== undefined) {
@@ -259,7 +259,7 @@ const retrieveEntities = async (vim, vimPort, propertyCollector, ref, type,
   }
   return objects.map((object) => ({
     props: createProps(object.propSet),
-    ref: object.obj
+    ref: object.obj,
   }));
 };
 
@@ -269,18 +269,18 @@ const retrieveProperty = async (vim, vimPort, propertyCollector,
     vim.PropertyFilterSpec({
       objectSet: [
         vim.ObjectSpec({
-          obj: ref
-        })
+          obj: ref,
+        }),
       ],
       propSet: [
         vim.PropertySpec({
           pathSet: [
-            prop
+            prop,
           ],
           type: ref.type,
-        })
-      ]
-    })
+        }),
+      ],
+    }),
   ], vim.RetrieveOptions());
   return result.objects[0].propSet[0].val;
 };
@@ -291,17 +291,17 @@ const retrieveProperties = async (vim, vimPort, propertyCollector,
     vim.PropertyFilterSpec({
       objectSet: [
         vim.ObjectSpec({
-          obj: ref
-        })
+          obj: ref,
+        }),
       ],
       propSet: [
         vim.PropertySpec({
           all: props.length === 0,
           pathSet: props,
           type: ref.type,
-        })
-      ]
-    })
+        }),
+      ],
+    }),
   ], vim.RetrieveOptions());
   return createProps(result.objects[0].propSet);
 };
@@ -313,17 +313,17 @@ const retrieveReferences = async (vim, vimPort, propertyCollector, ref,
       objectSet: [
         vim.ObjectSpec({
           obj: ref,
-          selectSet: createSelectSet(vim)
-        })
+          selectSet: createSelectSet(vim),
+        }),
       ],
       propSet: [
         vim.PropertySpec({
-          type
-        })
-      ]
-    })
+          type,
+        }),
+      ],
+    }),
   ], vim.RetrieveOptions({
-    maxObjects: limit
+    maxObjects: limit,
   }));
   let objects = result.objects;
   while (result.token !== undefined) {
@@ -341,15 +341,15 @@ const waitForTask = async (vim, vimPort, propertyCollector, ref) => {
       vim.PropertyFilterSpec({
         objectSet: [
           vim.ObjectSpec({
-            obj: ref
-          })
+            obj: ref,
+          }),
         ],
         propSet: [
           vim.PropertySpec({
             pathSet: [INFO_ERROR, INFO_STATE],
             type: ref.type,
-          })
-        ]
+          }),
+        ],
       }), true);
   let version = "";
   let waiting = true;
@@ -373,15 +373,15 @@ const waitForTask = async (vim, vimPort, propertyCollector, ref) => {
   await vimPort.destroyPropertyFilter(filter);
 };
 
-export const integrityEx = (integrityService: integrityService) => {
+export const integrityEx = (service: integrityService) => {
   type ManagedObjectReference = integrityService.vim.ManagedObjectReference;
   const {
     serviceContent: {
-      propertyCollector
+      propertyCollector,
     },
     vim,
-    integrityPort
-  } = integrityService;
+    integrityPort,
+  } = service;
   return {
     entity,
     retrieveEntities: async (ref: ManagedObjectReference, type: string,
@@ -404,19 +404,19 @@ export const integrityEx = (integrityService: integrityService) => {
     },
     waitForTask: async (ref: ManagedObjectReference) => {
       await waitForTask(vim, integrityPort, propertyCollector, ref);
-    }
+    },
   };
 };
 
-export const vimEx = (vimService: vimService) => {
+export const vimEx = (service: vimService) => {
   type ManagedObjectReference = vimService.vim.ManagedObjectReference;
   const {
     serviceContent: {
-      propertyCollector
+      propertyCollector,
     },
     vim,
-    vimPort
-  } = vimService;
+    vimPort,
+  } = service;
   return {
     entity,
     retrieveEntities: async (ref: ManagedObjectReference, type: string,
@@ -438,6 +438,6 @@ export const vimEx = (vimService: vimService) => {
     },
     waitForTask: async (ref: ManagedObjectReference) => {
       await waitForTask(vim, vimPort, propertyCollector, ref);
-    }
+    },
   };
 };

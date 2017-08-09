@@ -30,34 +30,34 @@ const opts = stdio.getopt({
     args: 2,
     description: "Counter details in <host_name> <counter_name> format",
     key: "c",
-    mandatory: true
+    mandatory: true,
   },
   debug: {
     description: "Print debug details",
-    key: "d"
+    key: "d",
   },
   hostname: {
     args: 1,
     description: "vSphere hostname",
     key: "h",
-    mandatory: true
+    mandatory: true,
   },
   insecure: {
     description: "Allow untrusted connections",
-    key: "i"
+    key: "i",
   },
   password: {
     args: 1,
     description: "vSphere password",
     key: "p",
-    mandatory: true
+    mandatory: true,
   },
   username: {
     args: 1,
     description: "vSphere username",
     key: "u",
-    mandatory: true
-  }
+    mandatory: true,
+  },
 });
 
 (async ({counter, debug,  hostname, insecure, password, username}) => {
@@ -67,17 +67,17 @@ const opts = stdio.getopt({
   }
 
   const vimService = await vsphere.vimService(hostname, {
-    debug
+    debug,
   });
   const vimEx = vspherex.vimEx(vimService);
   const {
     serviceContent: {
       perfManager,
       rootFolder,
-      sessionManager
+      sessionManager,
     },
     vim,
-    vimPort
+    vimPort,
   } = vimService;
   await vimPort.login(sessionManager, username, password, null);
   const entities = await vimEx.retrieveEntities(rootFolder,
@@ -90,7 +90,7 @@ const opts = stdio.getopt({
         const {counterId} = current;
         previous[counterId] = [
           ...(previous[counterId] === undefined ? [] : previous[counterId]),
-          current
+          current,
         ];
         return previous;
       }, []);
@@ -102,7 +102,7 @@ const opts = stdio.getopt({
     entity: ref,
     intervalId: 20,
     maxSample: 180,
-    metricId: availableMetrics[perfCounter.key]
+    metricId: availableMetrics[perfCounter.key],
   });
   const perfStats: any = await vimPort.queryPerf(perfManager, [querySpec]);
   perfStats[0].value.forEach(({id, value}) => {

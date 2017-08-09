@@ -28,23 +28,23 @@ import * as vspherex from "../../vspherex";
 const opts = stdio.getopt({
   debug: {
     description: "Print debug details",
-    key: "d"
+    key: "d",
   },
   hostname: {
     args: 1,
     description: "vSphere hostname",
     key: "h",
-    mandatory: true
+    mandatory: true,
   },
   insecure: {
     description: "Allow untrusted connections",
-    key: "i"
+    key: "i",
   },
   password: {
     args: 1,
     description: "vSphere password",
     key: "p",
-    mandatory: true
+    mandatory: true,
   },
   spec: {
     args: 5,
@@ -52,14 +52,14 @@ const opts = stdio.getopt({
         "<datacenter_name> <datastore_name> <vm_name> <num_cpu> <memory_mb> " +
         "format",
     key: "s",
-    mandatory: true
+    mandatory: true,
   },
   username: {
     args: 1,
     description: "vSphere username",
     key: "u",
-    mandatory: true
-  }
+    mandatory: true,
+  },
 });
 
 (async ({debug, guest, hostname, insecure, password, spec, username}) => {
@@ -69,17 +69,16 @@ const opts = stdio.getopt({
   }
 
   const vimService = await vsphere.vimService(hostname, {
-    debug
+    debug,
   });
   const vimEx = vspherex.vimEx(vimService);
   const {
     serviceContent: {
-      guestOperationsManager,
       rootFolder,
-      sessionManager
+      sessionManager,
     },
     vim,
-    vimPort
+    vimPort,
   } = vimService;
   await vimPort.login(sessionManager, username, password, null);
 
@@ -90,11 +89,11 @@ const opts = stdio.getopt({
       vimEx.entity.ResourcePool, 1);
   const configSpec = vim.VirtualMachineConfigSpec({
     files: vim.VirtualMachineFileInfo({
-      vmPathName: "[" + spec[1] + "]"
+      vmPathName: "[" + spec[1] + "]",
     }),
     memoryMB: parseInt(spec[4], 10),
     name: spec[2],
-    numCPUs: parseInt(spec[3], 10)
+    numCPUs: parseInt(spec[3], 10),
   });
   const task = await vimPort.createVMTask(datacenter.props.vmFolder,
       configSpec, refs[0], null);

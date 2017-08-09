@@ -1,5 +1,5 @@
 import { integrityService, vimService } from "vsphere";
-export declare const integrityEx: (integrityService: integrityService) => {
+export declare const integrityEx: (service: integrityService) => {
     entity: {
         Alarm: string;
         AlarmManager: string;
@@ -146,7 +146,7 @@ export declare const integrityEx: (integrityService: integrityService) => {
     retrieveReferences: (ref: integrityService.vim.ManagedObjectReference, type: string, limit: number) => Promise<any>;
     waitForTask: (ref: integrityService.vim.ManagedObjectReference) => Promise<void>;
 };
-export declare const vimEx: (vimService: vimService) => {
+export declare const vimEx: (service: vimService) => {
     entity: {
         Alarm: string;
         AlarmManager: string;

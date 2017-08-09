@@ -29,30 +29,30 @@ import * as vspherex from "../../vspherex";
 const opts = stdio.getopt({
   debug: {
     description: "Print debug details",
-    key: "d"
+    key: "d",
   },
   hostname: {
     args: 1,
     description: "vSphere hostname",
     key: "h",
-    mandatory: true
+    mandatory: true,
   },
   insecure: {
     description: "Allow untrusted connections",
-    key: "i"
+    key: "i",
   },
   password: {
     args: 1,
     description: "vSphere password",
     key: "p",
-    mandatory: true
+    mandatory: true,
   },
   username: {
     args: 1,
     description: "vSphere username",
     key: "u",
-    mandatory: true
-  }
+    mandatory: true,
+  },
 });
 
 (async ({debug, hostname, insecure, password, username}) => {
@@ -61,38 +61,36 @@ const opts = stdio.getopt({
     process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
   }
 
-  let integrityOptions = {
+  const integrityOptions = {
     debug,
     definitions: ["file://" + path.join(__dirname,
-        "../definitions/integrityService/integrityService.wsdl")]
+        "../definitions/integrityService/integrityService.wsdl")],
   };
   const [
     integrityService,
-    vimService
+    vimService,
   ] = await Promise.all([
     vsphere.integrityService(hostname, integrityOptions),
     vsphere.vimService(hostname, {
-      debug
-    })
+      debug,
+    }),
   ]);
 
   const integrityEx = vspherex.integrityEx(integrityService);
   const {
     serviceContent: {
       complianceStatusManager,
-      sessionManager: integritySessionManager
+      sessionManager: integritySessionManager,
     },
-    integrity,
-    integrityPort
+    integrityPort,
   } = integrityService;
   const vimEx = vspherex.vimEx(vimService);
   const {
     serviceContent: {
       rootFolder,
-      sessionManager
+      sessionManager,
     },
-    vim,
-    vimPort
+    vimPort,
   } = vimService;
 
   const session = await vimPort.login(sessionManager, username, password, null);
@@ -105,7 +103,7 @@ const opts = stdio.getopt({
         complianceStatusManager,
         integrityService.vim.ManagedObjectReference({
           type: entity.ref.type,
-          value: entity.ref.value
+          value: entity.ref.value,
         }));
     const statuses = await integrityEx.retrieveProperty(statusCollector,
         "status");
